@@ -1,0 +1,70 @@
+{
+  "fund_metadata": {
+    "fund_name": "ROKAF Military Service Track Record Fund",
+    "fund_manager": "이동훈 (DongHoon Lee)",
+    "inception_date": "2026-08-31",
+    "last_updated": "2026-11-11",
+    "strategy": "Long-Only Catalyst & Value Alpha Strategy",
+    "base_currency": "KRW",
+    "benchmark": "KOSPI",
+    "benchmark_entry_index": 6820.02,
+    "benchmark_current_index": 5375.36,
+    "benchmark_return_pct": -21.18,
+    "portfolio_return_pct": -3.37,
+    "cumulative_alpha_pct": 17.81,
+    "portfolio_mdd_pct": -17.14,
+    "benchmark_mdd_pct": -29.12,
+    "information_ratio": 1.42,
+    "sharpe_ratio": 0.85,
+    "portfolio_beta": 0.28,
+    "win_rate_pct": 100.0,
+    "active_slots": "1/10"
+  },
+  "holdings": [
+    {
+      "slot": 1,
+      "code": "086280",
+      "ticker": "086280.KS",
+      "name": "현대글로비스",
+      "sector": "산업재 / 스마트 모빌리티 물류 인프라",
+      "entry_date": "2026-08-31",
+      "entry_price": 207500,
+      "current_price": 200500,
+      "target_price": 280000,
+      "stop_loss_price": 170000,
+      "return_pct": -3.37,
+      "benchmark_entry_index": 6820.02,
+      "benchmark_current_index": 5375.36,
+      "benchmark_return_pct": -21.18,
+      "alpha_pct": 17.81,
+      "upside_left_pct": 39.65,
+      "stop_margin_pct": 17.94,
+      "period_high": 210000,
+      "period_low": 174000,
+      "period_mdd_pct": -17.14,
+      "status": "BUY / HOLD (비중 유지)",
+      "weight_pct": 100.0,
+      "theses": [
+        {
+          "title": "현대차그룹 지배구조 개편 핵심 창구",
+          "mechanism": "정의선 회장 개인 지분 20.00%를 활용한 현대모비스 지분 스왑/현물출자 모멘텀 및 글로비스 기업가치 제고 유인 극대화",
+          "status": "ON TRACK",
+          "progress_pct": 85
+        },
+        {
+          "title": "보스턴 다이내믹스 IPO & 물류 RaaS 체질 개선",
+          "mechanism": "지분 11.25% 가치 재평가 및 스마트 물류 거점 내 로봇(Stretch) 구독형 서비스(RaaS) 전환",
+          "status": "ON TRACK",
+          "progress_pct": 75
+        },
+        {
+          "title": "PCTC 완성차 해상운송 고마진 & 주주환원",
+          "mechanism": "PCTC 선대 장기계약 고운임 수취, 견조한 CKD 본업 실적 및 배당 성향·자사주 소각 등 주주가치 제고",
+          "status": "STRONG",
+          "progress_pct": 90
+        }
+      ],
+      "blog_url": "https://blog.naver.com/"
+    }
+  ]
+}
