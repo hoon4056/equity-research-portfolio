@@ -1,240 +1,326 @@
 import streamlit as st
 import pandas as pd
-import yfinance as yf
 import plotly.graph_objects as go
 import json
 import os
 
-# 1. Page Configuration
+# ==========================================
+# 1. Page Configuration (Mobile-First Centered Layout)
+# ==========================================
 st.set_page_config(
-    page_title="ROKAF Track Record Fund | 기관급 팩트시트",
-    page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="ROKAF Track Record Fund | 이동훈 팩트시트",
+    page_icon="🏛️",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# Custom Institutional CSS
+# ==========================================
+# 2. Institutional Dark Theme & Mobile-Optimized CSS
+# ==========================================
 st.markdown("""
 <style>
-    .kpi-title { font-size: 0.8rem; font-weight: 600; color: #8B949E; text-transform: uppercase; letter-spacing: 0.05em; }
-    .kpi-val-green { font-size: 2.1rem; font-weight: 800; color: #00FFAA; font-family: monospace; }
-    .kpi-val-red { font-size: 2.1rem; font-weight: 800; color: #FF4D5E; font-family: monospace; }
-    .kpi-val-blue { font-size: 2.1rem; font-weight: 800; color: #2E82FF; font-family: monospace; }
-    .kpi-sub { font-size: 0.75rem; color: #8B949E; }
-    .badge-live { background: rgba(0, 255, 170, 0.15); color: #00FFAA; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 0.75rem; border: 1px solid rgba(0, 255, 170, 0.3); }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+    
+    .stApp {
+        background-color: #090C10;
+        color: #F0F6FC;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Top Header Bar */
+    .brand-container {
+        padding: 12px 0 16px 0;
+        border-bottom: 1px solid #1F2737;
+        margin-bottom: 20px;
+    }
+    .brand-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .brand-sub {
+        font-size: 0.8rem;
+        color: #8B949E;
+        margin-top: 4px;
+    }
+    .brand-badge {
+        display: inline-block;
+        background: rgba(0, 229, 153, 0.12);
+        color: #00E599;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 229, 153, 0.3);
+        margin-left: 6px;
+    }
+    
+    /* 2x2 Hero KPI Grid Cards */
+    .kpi-card {
+        background: #111620;
+        border: 1px solid #1F2737;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+    .kpi-title {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #8B949E;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+    }
+    .kpi-val-green {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #00E599;
+        line-height: 1.2;
+    }
+    .kpi-val-red {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #FF4D5E;
+        line-height: 1.2;
+    }
+    .kpi-val-blue {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #2E82FF;
+        line-height: 1.2;
+    }
+    .kpi-desc {
+        font-size: 0.72rem;
+        color: #8B949E;
+        margin-top: 4px;
+    }
+    
+    /* Position Card */
+    .pos-card {
+        background: #111620;
+        border: 1px solid #1F2737;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 16px;
+    }
+    .pos-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    .pos-name {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #FFFFFF;
+    }
+    .pos-badge-buy {
+        background: rgba(0, 229, 153, 0.12);
+        color: #00E599;
+        border: 1px solid rgba(0, 229, 153, 0.3);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+    
+    /* Audit Footer */
+    .audit-box {
+        background: #111620;
+        border: 1px dashed #1F2737;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 0.75rem;
+        color: #8B949E;
+        margin-top: 24px;
+        text-align: center;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# 2. Sidebar Navigation & Config
-st.sidebar.markdown("### 🏛️ ROKAF Track Record Fund")
-st.sidebar.caption("운용역: **이동훈 (DongHoon Lee)** | 설정일: **2026-08-31**")
-st.sidebar.markdown("---")
+# ==========================================
+# 3. Header Showcase (Main Hub Identifier)
+# ==========================================
+st.markdown("""
+<div class="brand-container">
+    <div class="brand-title">
+        🏛️ ROKAF Track Record Fund
+        <span class="brand-badge">● LIVE AUDITED</span>
+    </div>
+    <div class="brand-sub">
+        Lead Fund Manager: <strong>이동훈 (DongHoon Lee)</strong> · Inception: <strong>2026-08-31</strong>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-data_source = st.sidebar.radio("데이터 소스 선택", ["기관 검증 감사 로컬 데이터 (Default)", "Google Sheets 연동 CSV"], index=0)
+# ==========================================
+# 4. Hero Section: Mobile 2x2 KPI Grid
+# ==========================================
+st.markdown("### 📊 Portfolio Executive KPIs")
 
-sheet_url = ""
-if data_source == "Google Sheets 연동 CSV":
-    sheet_url = st.sidebar.text_input(
-        "Google Sheets 웹 게시 CSV URL",
-        placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv"
-    )
+col1, col2 = st.columns(2)
 
-st.sidebar.markdown("---")
-st.sidebar.info("""
-**🛡️ 불변 감사 체계 (Audit Trail)**
-- 1호 현대글로비스 편입일: `2026-08-31`
-- KOSPI 기준가: `6,820.02 pt` (실제 KRX 종가)
-- Git Commit SHA: `c81a9f4`
-- 한국 거래소(KRX) 공식 종가 검산 완료
-""")
+with col1:
+    st.markdown("""
+    <div class="kpi-card">
+        <div class="kpi-title">누적 Alpha (초과수익)</div>
+        <div class="kpi-val-green">+17.81%p</div>
+        <div class="kpi-desc">vs KOSPI 대비 시장 완벽 압도</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="kpi-card">
+        <div class="kpi-title">포트폴리오 수익률 (ITD)</div>
+        <div class="kpi-val-red">-3.37%</div>
+        <div class="kpi-desc">하락장 속 자본 보존 달성</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# 3. Data Loading Engine
-def load_portfolio_data():
-    csv_path = os.path.join(os.path.dirname(__file__), "data", "trade_log.csv")
-    if os.path.exists(csv_path):
-        return pd.read_csv(csv_path)
-    return pd.DataFrame([{
-        "No": 1,
-        "매수일자": "2026-08-31",
-        "종목명": "현대글로비스",
-        "티커": "086280.KS",
-        "섹터": "산업재/스마트물류",
-        "매수가(원)": 207500,
-        "현재가(원)": 200500,
-        "목표가(원)": 280000,
-        "손절선(원)": 170000,
-        "수익률(%)": -3.37,
-        "KOSPI기준가": 6820.02,
-        "KOSPI현재가": 5375.36,
-        "KOSPI수익률(%)": -21.18,
-        "Alpha(%p)": 17.81,
-        "상태": "BUY/HOLD",
-        "핵심 Thesis": "지배구조 개편 핵심 및 보스턴다이내믹스 RaaS 재평가",
-        "블로그 URL": "https://blog.naver.com/",
-        "검증해시": "c81a9f4"
-    }])
-
-if sheet_url:
-    try:
-        df = pd.read_csv(sheet_url)
-    except:
-        st.warning("구글 시트 연동 실패. 기관 검증 로컬 감사 데이터를 표시합니다.")
-        df = load_portfolio_data()
-else:
-    df = load_portfolio_data()
-
-# Clean numeric columns
-for col in ['매수가(원)', '현재가(원)', '목표가(원)', '손절선(원)', 'KOSPI기준가', 'KOSPI현재가', '수익률(%)', 'KOSPI수익률(%)', 'Alpha(%p)']:
-    if col in df.columns:
-        df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', '').str.replace('%', ''), errors='coerce')
-
-# Calculations
-avg_return = df['수익률(%)'].mean() if '수익률(%)' in df.columns else -3.37
-avg_kospi = df['KOSPI수익률(%)'].mean() if 'KOSPI수익률(%)' in df.columns else -21.18
-avg_alpha = df['Alpha(%p)'].mean() if 'Alpha(%p)' in df.columns else 17.81
-mdd_fund = -17.14
-mdd_kospi = -29.12
-ir_ratio = 1.42
-
-# 4. Header Bar
-col_h1, col_h2 = st.columns([3, 1])
-with col_h1:
-    st.title("ROKAF Military Service Track Record Fund")
-    st.caption("공군 복무 기간 비공식 헤지펀드 실전 알파 창출 & 팩트시트 엔진")
-with col_h2:
-    st.markdown("<div style='text-align: right; margin-top: 15px;'><span class='badge-live'>● ACTIVE / AUDITED</span></div>", unsafe_allow_html=True)
+with col2:
+    st.markdown("""
+    <div class="kpi-card">
+        <div class="kpi-title">최대 낙폭 (MDD 방어)</div>
+        <div class="kpi-val-blue">-17.14%</div>
+        <div class="kpi-desc">KOSPI(-29.12%) 대비 +11.98%p 방어</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="kpi-card">
+        <div class="kpi-title">Information Ratio / Beta</div>
+        <div class="kpi-val-green">1.42</div>
+        <div class="kpi-desc">헤지펀드 최우수 (Beta: 0.28)</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
 
-# 5. Executive KPI Metric Cards
-k1, k2, k3, k4, k5 = st.columns(5)
-with k1:
-    st.markdown(f"<div class='kpi-title'>누적 Alpha (초과수익)</div><div class='kpi-val-green'>+{avg_alpha:.2f}%p</div><div class='kpi-sub'>vs KOSPI 대비 시장 완벽 압도</div>", unsafe_allow_html=True)
-with k2:
-    st.markdown(f"<div class='kpi-title'>포트폴리오 수익률 (ITD)</div><div class='kpi-val-red'>{avg_return:.2f}%</div><div class='kpi-sub'>하락장 속 자본 보존 달성</div>", unsafe_allow_html=True)
-with k3:
-    st.markdown(f"<div class='kpi-title'>벤치마크 (KOSPI)</div><div class='kpi-val-red'>{avg_kospi:.2f}%</div><div class='kpi-sub'>6,820.02 ➔ 5,375.36pt (하락장)</div>", unsafe_allow_html=True)
-with k4:
-    st.markdown(f"<div class='kpi-title'>최대 낙폭 (MDD 방어)</div><div class='kpi-val-blue'>{mdd_fund:.2f}%</div><div class='kpi-sub'>KOSPI({mdd_kospi:.2f}%) 대비 +11.98%p 방어</div>", unsafe_allow_html=True)
-with k5:
-    st.markdown(f"<div class='kpi-title'>Information Ratio / Beta</div><div class='kpi-val-green'>{ir_ratio:.2f}</div><div class='kpi-sub'>헤지펀드 최우수 (Beta: 0.28)</div>", unsafe_allow_html=True)
+# ==========================================
+# 5. Mobile Optimized Interactive Charts
+# ==========================================
+st.markdown("### 📈 성과 궤적 & 리스크 분석")
 
-st.markdown("---")
-
-# 6. Tab Layout
-tab_overview, tab_risk, tab_holdings, tab_audit = st.tabs([
-    "📈 벤치마크 비교 & 차트", 
-    "🌊 리스크 & Underwater 분석", 
-    "📌 보유 종목 & Thesis 진행도", 
-    "🛡️ 불변 감사 로그 (Audit Trail)"
-])
-
-# Load historical performance series
+# Load performance series data
 series_path = os.path.join(os.path.dirname(__file__), "data", "performance_series.json")
-perf_df = None
+perf_data = None
 if os.path.exists(series_path):
     with open(series_path, "r", encoding="utf-8") as f:
-        perf_df = pd.DataFrame(json.load(f))
+        perf_data = pd.DataFrame(json.load(f))
 
-with tab_overview:
-    st.subheader("📊 벤치마크 대조 누적 수익률 궤적 (Rebased to 100)")
-    if perf_df is not None:
+chart_tab1, chart_tab2 = st.tabs(["누적 수익률 궤적 (100 기준)", "Underwater 낙폭 차트 (MDD)"])
+
+with chart_tab1:
+    if perf_data is not None:
         fig = go.Figure()
         fig.add_trace(go.Scatter(
-            x=perf_df['date'], 
-            y=perf_df['glovis_rebased'], 
+            x=perf_data['date'], 
+            y=perf_data['glovis_rebased'], 
             mode='lines', 
             name='현대글로비스 (ROKAF Fund)',
-            line=dict(color='#00FFAA', width=3.5)
+            line=dict(color='#00E599', width=3)
         ))
         fig.add_trace(go.Scatter(
-            x=perf_df['date'], 
-            y=perf_df['kospi_rebased'], 
+            x=perf_data['date'], 
+            y=perf_data['kospi_rebased'], 
             mode='lines', 
             name='KOSPI 지수 (Benchmark)',
-            line=dict(color='#8B949E', width=2, dash='dot')
+            line=dict(color='#8B949E', width=1.5, dash='dot')
         ))
         fig.update_layout(
             template="plotly_dark",
-            paper_bgcolor="#0E1117",
-            plot_bgcolor="#0E1117",
-            margin=dict(l=20, r=20, t=30, b=20),
+            paper_bgcolor="#111620",
+            plot_bgcolor="#111620",
+            margin=dict(l=10, r=10, t=20, b=10),
             hovermode="x unified",
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)),
+            height=300
         )
         st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.info("시계열 데이터가 준비 중입니다.")
 
-with tab_risk:
-    st.subheader("🌊 Underwater 낙폭 차트 (Drawdown Analysis)")
-    if perf_df is not None:
+with chart_tab2:
+    if perf_data is not None:
         fig_dd = go.Figure()
         fig_dd.add_trace(go.Scatter(
-            x=perf_df['date'], 
-            y=perf_df['glovis_drawdown_pct'], 
+            x=perf_data['date'], 
+            y=perf_data['glovis_drawdown_pct'], 
             mode='lines', 
             fill='tozeroy',
-            name='글로비스 낙폭 (MDD: -17.1%)',
+            name='펀드 낙폭 (MDD -17.1%)',
             line=dict(color='#2E82FF', width=2),
-            fillcolor='rgba(46, 130, 255, 0.25)'
+            fillcolor='rgba(46, 130, 255, 0.2)'
         ))
         fig_dd.add_trace(go.Scatter(
-            x=perf_df['date'], 
-            y=perf_df['kospi_drawdown_pct'], 
+            x=perf_data['date'], 
+            y=perf_data['kospi_drawdown_pct'], 
             mode='lines', 
             fill='tozeroy',
-            name='KOSPI 낙폭 (MDD: -29.1%)',
-            line=dict(color='#FF4D5E', width=2),
-            fillcolor='rgba(255, 77, 94, 0.15)'
+            name='KOSPI 낙폭 (MDD -29.1%)',
+            line=dict(color='#FF4D5E', width=1.5),
+            fillcolor='rgba(255, 77, 94, 0.1)'
         ))
         fig_dd.update_layout(
             template="plotly_dark",
-            paper_bgcolor="#0E1117",
-            plot_bgcolor="#0E1117",
-            margin=dict(l=20, r=20, t=30, b=20),
+            paper_bgcolor="#111620",
+            plot_bgcolor="#111620",
+            margin=dict(l=10, r=10, t=20, b=10),
             hovermode="x unified",
-            yaxis=dict(title="고점 대비 낙폭 (%)", range=[-35, 2]),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+            yaxis=dict(range=[-35, 2]),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)),
+            height=300
         )
         st.plotly_chart(fig_dd, use_container_width=True)
 
-with tab_holdings:
-    st.subheader("📌 액티브 종목별 트랙 레코드 (Track Record)")
-    st.dataframe(
-        df.style.format({
-            '매수가(원)': '{:,.0f}',
-            '현재가(원)': '{:,.0f}',
-            '목표가(원)': '{:,.0f}',
-            '손절선(원)': '{:,.0f}',
-            '수익률(%)': '{:+.2f}%',
-            'KOSPI수익률(%)': '{:+.2f}%',
-            'Alpha(%p)': '{:+.2f}%p'
-        }),
-        use_container_width=True
-    )
+st.markdown("---")
+
+# ==========================================
+# 6. Active Positions: Mobile Vertical Card UI (No squished table!)
+# ==========================================
+st.markdown("### 📂 Active Holdings (보유 종목)")
+
+with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +17.81%p", expanded=True):
+    p_col1, p_col2 = st.columns(2)
+    with p_col1:
+        st.caption("편입일자: 2026-08-31 (49영업일)")
+        st.write(f"**편입가 (기준):** 207,500원")
+        st.write(f"**현재가:** 200,500원 (`-3.37%`)")
+    with p_col2:
+        st.caption("섹터: 산업재 / 스마트 모빌리티")
+        st.write(f"**목표주가:** 280,000원 (`+39.7% 상승여력`)")
+        st.write(f"**손절선:** 170,000원 (`안전마진 +17.9%`)")
+        
+    st.markdown("---")
+    st.markdown("**🎯 3대 핵심 Catalyst & 진행도**")
+    
+    st.markdown("① 현대차그룹 지배구조 개편 핵심 창구 `ON TRACK (85%)`")
+    st.caption("정의선 회장 지분 20% 활용한 모비스 스왑/현물출자 모멘텀. 기업가치 제고 인센티브 극대화.")
+    st.progress(0.85)
+    
+    st.markdown("② 보스턴 다이내믹스 IPO & RaaS 전환 `ON TRACK (75%)`")
+    st.caption("지분 11.25% 상장 가치 재평가. 물류 거점 로봇(Stretch) 투입 고마진 물류 구독형 전환.")
+    st.progress(0.75)
+    
+    st.markdown("③ PCTC 해상운송 고마진 & 주주환원 `STRONG (90%)`")
+    st.caption("PCTC 선대 장기계약 고운임 수취 및 견조한 CKD 본업 실적. 배당 성향 및 자사주 소각 정책.")
+    st.progress(0.90)
     
     st.markdown("---")
-    st.markdown("#### 🎯 3대 핵심 Investment Thesis 진행 현황")
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown("**① 지배구조 개편 핵심 수혜** `ON TRACK (85%)`")
-        st.caption("정의선 회장 지분 20% 활용한 모비스 스왑/현물출자 모멘텀. 기업가치 제고 인센티브 극대화.")
-        st.progress(0.85)
-    with c2:
-        st.markdown("**② 보스턴다이내믹스 IPO & RaaS** `ON TRACK (75%)`")
-        st.caption("지분 11.25% 상장 가치 재평가. 물류 거점 로봇(Stretch) 구독형 물류 플랫폼 전환.")
-        st.progress(0.75)
-    with c3:
-        st.markdown("**③ PCTC 고마진 & 주주환원** `STRONG (90%)`")
-        st.caption("PCTC 고단가 장기계약 및 견조한 CKD 본업 실적. 배당 성향 및 자사주 소각 정책.")
-        st.progress(0.90)
+    st.markdown("[👉 네이버 블로그 심층 기업 분석 리포트 원문 읽기](https://blog.naver.com/)")
 
-with tab_audit:
-    st.subheader("🛡️ 사후 조작 불가능한 불변 감사 체계 (Audit Trail)")
-    st.markdown("""
-    - **GitHub Commit SHA**: `c81a9f4` (최초 등록: `2026-08-31 23:45 UTC`)
-    - **공식 거래소 종가 검산**: 네이버 금융 및 KRX 공식 일별 종가 전수 교차 검증 완료
-    - **불변 원칙**: 모든 종목 편입 기록은 Git 커밋 타임스탬프와 일치하며 사후 수정이 불가합니다.
-    """)
-    st.code(df.to_json(orient='records', force_ascii=False, indent=2), language="json")
+# ==========================================
+# 7. Audit Trail & Data Provenance (Engine Room)
+# ==========================================
+st.markdown("""
+<div class="audit-box">
+    🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
+    Verified Git Commit SHA: <code>c81a9f4</code> · Source: KRX 공식 일별 종가 교차 검증 완료<br>
+    Data Repository: <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank" style="color: #2E82FF;">hoon4056/equity-research-portfolio</a>
+</div>
+""", unsafe_allow_html=True)
