@@ -171,7 +171,7 @@ with col1:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">누적 Alpha (초과수익)</div>
-        <div class="kpi-val-green">+17.81%p</div>
+        <div class="kpi-val-green">+24.01%p</div>
         <div class="kpi-desc">vs KOSPI 대비 시장 완벽 압도</div>
     </div>
     """, unsafe_allow_html=True)
@@ -179,7 +179,7 @@ with col1:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">포트폴리오 수익률 (ITD)</div>
-        <div class="kpi-val-red">-3.37%</div>
+        <div class="kpi-val-red">-1.20%</div>
         <div class="kpi-desc">하락장 속 자본 보존 달성</div>
     </div>
     """, unsafe_allow_html=True)
@@ -196,8 +196,8 @@ with col2:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">Information Ratio / Beta</div>
-        <div class="kpi-val-green">1.42</div>
-        <div class="kpi-desc">헤지펀드 최우수 (Beta: 0.28)</div>
+        <div class="kpi-val-green">3.16</div>
+        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.58 · TE 43.61%)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -285,16 +285,16 @@ st.markdown("---")
 # ==========================================
 st.markdown("### 📂 Active Holdings (보유 종목)")
 
-with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +17.81%p", expanded=True):
+with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +24.01%p", expanded=True):
     p_col1, p_col2 = st.columns(2)
     with p_col1:
-        st.caption("편입일자: 2026-08-31 (49영업일)")
+        st.caption("편입일자: 2026-08-31 (51영업일)")
         st.write(f"**편입가 (기준):** 207,500원")
-        st.write(f"**현재가:** 200,500원 (`-3.37%`)")
+        st.write(f"**현재가:** 205,000원 (`-1.20%`)")
     with p_col2:
         st.caption("섹터: 산업재 / 스마트 모빌리티")
-        st.write(f"**목표주가:** 280,000원 (`+39.7% 상승여력`)")
-        st.write(f"**손절선:** 170,000원 (`안전마진 +17.9%`)")
+        st.write(f"**목표주가:** 280,000원 (`+36.59% 상승여력`)")
+        st.write(f"**손절선:** 170,000원 (`안전마진 +20.59%`)")
         
     st.markdown("---")
     st.markdown("**🎯 3대 핵심 Catalyst & 진행도**")
@@ -304,7 +304,7 @@ with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +17
     st.progress(0.85)
     
     st.markdown("② 보스턴 다이내믹스 IPO & RaaS 전환 `ON TRACK (75%)`")
-    st.caption("지분 11.25% 상장 가치 재평가. 물류 거점 로봇(Stretch) 투입 고마진 물류 구독형 전환.")
+    st.caption("지분 12.47%로 확대로 상장 가치 재평가. 물류 거점 로봇(Stretch) 투입 고마진 물류 구독형 전환. 로봇 부문 손실 축소가 관건.")
     st.progress(0.75)
     
     st.markdown("③ PCTC 해상운송 고마진 & 주주환원 `STRONG (90%)`")

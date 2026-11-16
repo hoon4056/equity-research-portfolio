@@ -3,22 +3,25 @@
     "fund_name": "ROKAF Military Service Track Record Fund",
     "fund_manager": "이동훈 (DongHoon Lee)",
     "inception_date": "2026-08-31",
-    "last_updated": "2026-11-13",
+    "last_updated": "2026-11-16",
     "strategy": "Long-Only Catalyst & Value Alpha Strategy",
     "base_currency": "KRW",
     "benchmark": "KOSPI",
     "benchmark_entry_index": 6820.02,
-    "benchmark_current_index": 5290.53,
-    "benchmark_return_pct": -22.43,
-    "portfolio_return_pct": -2.17,
-    "cumulative_alpha_pct": 20.26,
+    "benchmark_current_index": 5100.5,
+    "benchmark_return_pct": -25.21,
+    "portfolio_return_pct": -1.2,
+    "cumulative_alpha_pct": 24.01,
     "portfolio_mdd_pct": -17.14,
     "benchmark_mdd_pct": -29.12,
-    "information_ratio": 1.42,
-    "sharpe_ratio": 0.85,
-    "portfolio_beta": 0.28,
+    "information_ratio": 3.16,
+    "sharpe_ratio": 0.1,
+    "portfolio_beta": 0.58,
     "win_rate_pct": 100.0,
-    "active_slots": "1/10"
+    "active_slots": "1/10",
+    "tracking_error_pct": 43.61,
+    "risk_free_annual_pct": 0.0,
+    "metric_basis": "일간 수익률, 252거래일 연율화"
   },
   "holdings": [
     {
@@ -29,18 +32,18 @@
       "sector": "산업재 / 스마트 모빌리티 물류 인프라",
       "entry_date": "2026-08-31",
       "entry_price": 207500,
-      "current_price": 203000,
+      "current_price": 205000.0,
       "target_price": 280000,
       "stop_loss_price": 170000,
-      "return_pct": -2.17,
+      "return_pct": -1.2,
       "benchmark_entry_index": 6820.02,
-      "benchmark_current_index": 5290.53,
-      "benchmark_return_pct": -22.43,
-      "alpha_pct": 20.26,
-      "upside_left_pct": 37.93,
-      "stop_margin_pct": 19.41,
-      "period_high": 210000,
-      "period_low": 174000,
+      "benchmark_current_index": 5100.5,
+      "benchmark_return_pct": -25.21,
+      "alpha_pct": 24.01,
+      "upside_left_pct": 36.59,
+      "stop_margin_pct": 20.59,
+      "period_high": 210000.0,
+      "period_low": 174000.0,
       "period_mdd_pct": -17.14,
       "status": "BUY / HOLD (비중 유지)",
       "weight_pct": 100.0,
@@ -64,7 +67,8 @@
           "progress_pct": 90
         }
       ],
-      "blog_url": "https://blog.naver.com/"
+      "blog_url": "https://blog.naver.com/",
+      "last_close_date": "2026-11-16"
     }
   ]
 }
