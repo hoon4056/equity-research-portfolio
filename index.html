@@ -400,26 +400,26 @@
     <div class="kpi-grid">
       <div class="kpi-card hero-kpi">
         <div class="kpi-label">누적 Alpha (초과수익)</div>
-        <div class="kpi-value green">+24.01%p</div>
-        <div class="kpi-caption">vs KOSPI 완벽 압도</div>
+        <div class="kpi-value green">+23.44%p</div>
+        <div class="kpi-caption">vs KOSPI 압도 (당일 +0.05%p)</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">포트폴리오 수익률</div>
-        <div class="kpi-value red">-1.20%</div>
-        <div class="kpi-caption">하락장 속 자본 보존</div>
+        <div class="kpi-value red">-3.71%</div>
+        <div class="kpi-caption">5,000선 붕괴일 -2.54% (지수 -2.59%)</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">최대 낙폭 (MDD 방어)</div>
         <div class="kpi-value blue">-17.14%</div>
-        <div class="kpi-caption">KOSPI(-29.12%) 대비 +11.98%p 방어</div>
+        <div class="kpi-caption">KOSPI(-29.83%) 대비 +12.69%p 방어</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">Information Ratio / Beta</div>
-        <div class="kpi-value green">3.16</div>
-        <div class="kpi-caption">일간 수익률 기준 (Beta: 0.58 · TE 43.61%)</div>
+        <div class="kpi-value green">3.13</div>
+        <div class="kpi-caption">일간 수익률 기준 (Beta: 0.59 · TE 43.19%)</div>
       </div>
     </div>
 
@@ -454,15 +454,15 @@
         </div>
         <div class="pos-stat-item">
           <span class="lbl">실질 Alpha</span>
-          <span class="val" style="color: var(--accent-green);">+24.01%p</span>
+          <span class="val" style="color: var(--accent-green);">+23.44%p</span>
         </div>
         <div class="pos-stat-item">
           <span class="lbl">편입가 / 현재가</span>
-          <span class="val">207.5k / 205.0k</span>
+          <span class="val">207.5k / 199.8k</span>
         </div>
         <div class="pos-stat-item">
           <span class="lbl">목표가 (상승여력)</span>
-          <span class="val">280.0k (+36.59%)</span>
+          <span class="val">280.0k (+40.14%)</span>
         </div>
       </div>
 
@@ -511,7 +511,7 @@
     let chartInstance = null;
     let seriesData = [];
 
-    // Historical Performance Series (52 Trading Days)
+    // Historical Performance Series (53 Trading Days)
     fetch('data/performance_series.json')
       .then(res => res.json())
       .then(data => {
@@ -528,7 +528,8 @@
           {"date": "2026-11-05", "glovis_rebased": 91.5, "kospi_rebased": 75.2, "glovis_drawdown_pct": -9.6, "kospi_drawdown_pct": -24.8},
           {"date": "2026-11-11", "glovis_rebased": 96.63, "kospi_rebased": 78.82, "glovis_drawdown_pct": -4.5, "kospi_drawdown_pct": -21.18},
           {"date": "2026-11-12", "glovis_rebased": 97.83, "kospi_rebased": 78.34, "glovis_drawdown_pct": -3.33, "kospi_drawdown_pct": -24.55},
-          {"date": "2026-11-16", "glovis_rebased": 98.8, "kospi_rebased": 74.79, "glovis_drawdown_pct": -2.38, "kospi_drawdown_pct": -27.97}
+          {"date": "2026-11-16", "glovis_rebased": 98.8, "kospi_rebased": 74.79, "glovis_drawdown_pct": -2.38, "kospi_drawdown_pct": -27.97},
+          {"date": "2026-11-17", "glovis_rebased": 96.29, "kospi_rebased": 72.85, "glovis_drawdown_pct": -4.86, "kospi_drawdown_pct": -29.83}
         ];
         renderRebasedChart();
       });

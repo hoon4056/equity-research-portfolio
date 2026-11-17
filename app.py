@@ -171,16 +171,16 @@ with col1:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">누적 Alpha (초과수익)</div>
-        <div class="kpi-val-green">+24.01%p</div>
-        <div class="kpi-desc">vs KOSPI 대비 시장 완벽 압도</div>
+        <div class="kpi-val-green">+23.44%p</div>
+        <div class="kpi-desc">vs KOSPI 대비 시장 압도 (당일 +0.05%p)</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">포트폴리오 수익률 (ITD)</div>
-        <div class="kpi-val-red">-1.20%</div>
-        <div class="kpi-desc">하락장 속 자본 보존 달성</div>
+        <div class="kpi-val-red">-3.71%</div>
+        <div class="kpi-desc">5,000선 붕괴일 -2.54% (지수 -2.59%)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -189,15 +189,15 @@ with col2:
     <div class="kpi-card">
         <div class="kpi-title">최대 낙폭 (MDD 방어)</div>
         <div class="kpi-val-blue">-17.14%</div>
-        <div class="kpi-desc">KOSPI(-29.12%) 대비 +11.98%p 방어</div>
+        <div class="kpi-desc">KOSPI(-29.83%) 대비 +12.69%p 방어</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">Information Ratio / Beta</div>
-        <div class="kpi-val-green">3.16</div>
-        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.58 · TE 43.61%)</div>
+        <div class="kpi-val-green">3.13</div>
+        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.59 · TE 43.19%)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -285,16 +285,16 @@ st.markdown("---")
 # ==========================================
 st.markdown("### 📂 Active Holdings (보유 종목)")
 
-with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +24.01%p", expanded=True):
+with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +23.44%p", expanded=True):
     p_col1, p_col2 = st.columns(2)
     with p_col1:
-        st.caption("편입일자: 2026-08-31 (51영업일)")
+        st.caption("편입일자: 2026-08-31 (52영업일)")
         st.write(f"**편입가 (기준):** 207,500원")
-        st.write(f"**현재가:** 205,000원 (`-1.20%`)")
+        st.write(f"**현재가:** 199,800원 (`-3.71%`, 당일 -2.54%)")
     with p_col2:
         st.caption("섹터: 산업재 / 스마트 모빌리티")
-        st.write(f"**목표주가:** 280,000원 (`+36.59% 상승여력`)")
-        st.write(f"**손절선:** 170,000원 (`안전마진 +20.59%`)")
+        st.write(f"**목표주가:** 280,000원 (`+40.14% 상승여력`)")
+        st.write(f"**손절선:** 170,000원 (`안전마진 +17.53%`)")
         
     st.markdown("---")
     st.markdown("**🎯 3대 핵심 Catalyst & 진행도**")
