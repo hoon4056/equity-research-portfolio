@@ -3,7 +3,7 @@
 
 [![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-00E599?style=for-the-badge&logo=github)](https://hoon4056.github.io/equity-research-portfolio/)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit)](https://hoon4056-equity-research-portfolio.streamlit.app/)
-[![Audit Status](https://img.shields.io/badge/Audit%20Status-Verified%20a5c6ecc-2E82FF?style=for-the-badge)](data/trade_log.csv)
+[![Audit Status](https://img.shields.io/badge/Audit%20Status-Verified%209163872-2E82FF?style=for-the-badge)](data/trade_log.csv)
 
 ---
 
@@ -44,7 +44,7 @@
 ---
 
 ## 🛡️ 사후 조작 불가능한 불변 감사 체계 (Audit Trail)
-- 본 포트폴리오는 사후적인 끼워맞추기식 기록을 원천 배제하기 위해, 편입 시점의 타임스탬프와 Git Commit Hash(`a5c6ecc`), 그리고 네이버 금융·한국거래소(KRX) 일별시세 확정 종가를 3각 교차 검증합니다.
+- 본 포트폴리오는 사후적인 끼워맞추기식 기록을 원천 배제하기 위해, 편입 시점의 타임스탬프와 Git Commit Hash(`9163872`), 그리고 네이버 금융·한국거래소(KRX) 일별시세 확정 종가를 3각 교차 검증합니다.
 - 정산은 `python3 portfolio/tracker.py settle --date YYYY-MM-DD`로만 수행하며(거래일당 1건, 멱등), `python3 portfolio/tracker.py audit`이 시계열·정산로그·포트폴리오 JSON·거래로그·팩트시트의 모든 수치를 0.01 허용오차로 재검산합니다.
 - 모든 일별 주가와 알파 계산 로그는 `data/trade_log.csv` 및 `data/performance_series.json`에 영구 기록됩니다.
 
