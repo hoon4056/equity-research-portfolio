@@ -400,14 +400,14 @@
     <div class="kpi-grid">
       <div class="kpi-card hero-kpi">
         <div class="kpi-label">누적 Alpha (초과수익)</div>
-        <div class="kpi-value green">+23.05%p</div>
-        <div class="kpi-caption">vs KOSPI 압도 (당일 -0.89%p)</div>
+        <div class="kpi-value green">+22.74%p</div>
+        <div class="kpi-caption">vs KOSPI 압도 (당일 -0.65%p)</div>
       </div>
 
       <div class="kpi-card">
         <div class="kpi-label">포트폴리오 수익률</div>
-        <div class="kpi-value red">-2.65%</div>
-        <div class="kpi-caption">5,000선 탈환일 +1.10% (지수 +1.99%)</div>
+        <div class="kpi-value red">-1.93%</div>
+        <div class="kpi-caption">5,000선 공방일 +0.74% (지수 +1.39%)</div>
       </div>
 
       <div class="kpi-card">
@@ -418,8 +418,8 @@
 
       <div class="kpi-card">
         <div class="kpi-label">Information Ratio / Beta</div>
-        <div class="kpi-value green">2.99</div>
-        <div class="kpi-caption">일간 수익률 기준 (Beta: 0.59 · TE 42.89%)</div>
+        <div class="kpi-value green">2.89</div>
+        <div class="kpi-caption">일간 수익률 기준 (Beta: 0.58 · TE 42.56%)</div>
       </div>
     </div>
 
@@ -454,15 +454,15 @@
         </div>
         <div class="pos-stat-item">
           <span class="lbl">실질 Alpha</span>
-          <span class="val" style="color: var(--accent-green);">+23.05%p</span>
+          <span class="val" style="color: var(--accent-green);">+22.74%p</span>
         </div>
         <div class="pos-stat-item">
           <span class="lbl">편입가 / 현재가</span>
-          <span class="val">207.5k / 202.0k</span>
+          <span class="val">207.5k / 203.5k</span>
         </div>
         <div class="pos-stat-item">
           <span class="lbl">목표가 (상승여력)</span>
-          <span class="val">280.0k (+38.61%)</span>
+          <span class="val">280.0k (+37.59%)</span>
         </div>
       </div>
 
@@ -502,7 +502,7 @@
     <!-- Audit Footer -->
     <footer>
       🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
-      Verified Git Commit SHA: <code>9163872</code> · Source: KRX 공식 종가 검산<br>
+      Verified Git Commit SHA: <code>pending</code> · Source: KRX 공식 종가 검산<br>
       <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank">hoon4056/equity-research-portfolio</a>
     </footer>
   </div>
@@ -511,7 +511,7 @@
     let chartInstance = null;
     let seriesData = [];
 
-    // Historical Performance Series (54 Trading Days)
+    // Historical Performance Series (55 Trading Days)
     fetch('data/performance_series.json')
       .then(res => res.json())
       .then(data => {
@@ -530,7 +530,8 @@
           {"date": "2026-11-12", "glovis_rebased": 97.83, "kospi_rebased": 78.34, "glovis_drawdown_pct": -3.33, "kospi_drawdown_pct": -24.55},
           {"date": "2026-11-16", "glovis_rebased": 98.8, "kospi_rebased": 74.79, "glovis_drawdown_pct": -2.38, "kospi_drawdown_pct": -27.97},
           {"date": "2026-11-17", "glovis_rebased": 96.29, "kospi_rebased": 72.85, "glovis_drawdown_pct": -4.86, "kospi_drawdown_pct": -29.83},
-          {"date": "2026-11-18", "glovis_rebased": 97.35, "kospi_rebased": 74.3, "glovis_drawdown_pct": -3.81, "kospi_drawdown_pct": -28.44}
+          {"date": "2026-11-18", "glovis_rebased": 97.35, "kospi_rebased": 74.3, "glovis_drawdown_pct": -3.81, "kospi_drawdown_pct": -28.44},
+          {"date": "2026-11-19", "glovis_rebased": 98.07, "kospi_rebased": 75.34, "glovis_drawdown_pct": -3.1, "kospi_drawdown_pct": -27.44}
         ];
         renderRebasedChart();
       });

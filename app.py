@@ -171,16 +171,16 @@ with col1:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">누적 Alpha (초과수익)</div>
-        <div class="kpi-val-green">+23.05%p</div>
-        <div class="kpi-desc">vs KOSPI 대비 시장 압도 (당일 -0.89%p)</div>
+        <div class="kpi-val-green">+22.74%p</div>
+        <div class="kpi-desc">vs KOSPI 대비 시장 압도 (당일 -0.65%p)</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">포트폴리오 수익률 (ITD)</div>
-        <div class="kpi-val-red">-2.65%</div>
-        <div class="kpi-desc">5,000선 탈환일 +1.10% (지수 +1.99%)</div>
+        <div class="kpi-val-red">-1.93%</div>
+        <div class="kpi-desc">5,000선 공방일 +0.74% (지수 +1.39%)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -196,8 +196,8 @@ with col2:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">Information Ratio / Beta</div>
-        <div class="kpi-val-green">2.99</div>
-        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.59 · TE 42.89%)</div>
+        <div class="kpi-val-green">2.89</div>
+        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.58 · TE 42.56%)</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -285,16 +285,16 @@ st.markdown("---")
 # ==========================================
 st.markdown("### 📂 Active Holdings (보유 종목)")
 
-with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +23.05%p", expanded=True):
+with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +22.74%p", expanded=True):
     p_col1, p_col2 = st.columns(2)
     with p_col1:
-        st.caption("편입일자: 2026-08-31 (53영업일)")
+        st.caption("편입일자: 2026-08-31 (54영업일)")
         st.write(f"**편입가 (기준):** 207,500원")
-        st.write(f"**현재가:** 202,000원 (`-2.65%`, 당일 +1.10%)")
+        st.write(f"**현재가:** 203,500원 (`-1.93%`, 당일 +0.74%)")
     with p_col2:
         st.caption("섹터: 산업재 / 스마트 모빌리티")
-        st.write(f"**목표주가:** 280,000원 (`+38.61% 상승여력`)")
-        st.write(f"**손절선:** 170,000원 (`안전마진 +18.82%`)")
+        st.write(f"**목표주가:** 280,000원 (`+37.59% 상승여력`)")
+        st.write(f"**손절선:** 170,000원 (`안전마진 +19.71%`)")
         
     st.markdown("---")
     st.markdown("**🎯 3대 핵심 Catalyst & 진행도**")
@@ -320,7 +320,7 @@ with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +23
 st.markdown("""
 <div class="audit-box">
     🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
-    Verified Git Commit SHA: <code>9163872</code> · Source: KRX 공식 일별 종가 교차 검증 완료<br>
+    Verified Git Commit SHA: <code>pending</code> · Source: KRX 공식 일별 종가 교차 검증 완료<br>
     Data Repository: <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank" style="color: #2E82FF;">hoon4056/equity-research-portfolio</a>
 </div>
 """, unsafe_allow_html=True)

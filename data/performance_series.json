@@ -646,5 +646,17 @@
     "alpha_pct": 23.05,
     "glovis_drawdown_pct": -3.81,
     "kospi_drawdown_pct": -28.44
+  },
+  {
+    "date": "2026-11-19",
+    "glovis_price": 203500.0,
+    "kospi_index": 5137.89,
+    "glovis_rebased": 98.07,
+    "kospi_rebased": 75.34,
+    "glovis_ret_pct": -1.93,
+    "kospi_ret_pct": -24.66,
+    "alpha_pct": 22.74,
+    "glovis_drawdown_pct": -3.1,
+    "kospi_drawdown_pct": -27.44
   }
 ]
