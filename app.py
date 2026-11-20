@@ -288,7 +288,7 @@ st.markdown("### 📂 Active Holdings (보유 종목)")
 with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +26.18%p", expanded=True):
     p_col1, p_col2 = st.columns(2)
     with p_col1:
-        st.caption("편입일자: 2026-08-31 (56영업일)")
+        st.caption("편입일자: 2026-08-31 (56거래일)")
         st.write(f"**편입가 (기준):** 207,500원")
         st.write(f"**현재가:** 202,500원 (`-2.41%`, 당일 -0.49%)")
     with p_col2:
