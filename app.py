@@ -320,7 +320,7 @@ with st.expander("🟢 [1호] 현대글로비스 (086280.KS) · 실질 Alpha +27
 st.markdown("""
 <div class="audit-box">
     🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
-    Verified Git Commit SHA: <code>63c48a2</code> · Source: KRX 공식 일별 종가 교차 검증 완료<br>
+    Verified Git Commit SHA: <code>3c3fc69</code> · Source: KRX 공식 일별 종가 교차 검증 완료<br>
     Data Repository: <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank" style="color: #2E82FF;">hoon4056/equity-research-portfolio</a>
 </div>
 """, unsafe_allow_html=True)
