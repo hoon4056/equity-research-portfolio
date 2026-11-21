@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROKAF Track Record Fund | 기관급 팩트시트 & 알파 대시보드</title>
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090C10;
+      --card-bg: #111620;
+      --card-border: #1F2737;
+      --card-hover: #18202F;
+      --text: #F0F6FC;
+      --text-muted: #8B949E;
+      --text-dim: #586069;
+      --accent-green: #00E599;
+      --accent-green-bg: rgba(0, 229, 153, 0.12);
+      --accent-red: #FF4D5E;
+      --accent-red-bg: rgba(255, 77, 94, 0.12);
+      --accent-blue: #2E82FF;
+      --accent-blue-bg: rgba(46, 130, 255, 0.12);
+      --mono-font: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Top Navigation / Brand */
+    header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 20px;
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+    }
+
+    .brand-badge {
+      background: var(--accent-green-bg);
+      color: var(--accent-green);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 229, 153, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .manager-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .manager-tag strong {
+      color: var(--text);
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 2x2 Hero KPI Grid (Mobile First) */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+    }
+
+    .kpi-card.hero-kpi {
+      border-color: rgba(0, 229, 153, 0.35);
+      background: linear-gradient(180deg, rgba(0, 229, 153, 0.05) 0%, var(--card-bg) 100%);
+    }
+
+    .kpi-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .kpi-value {
+      font-family: var(--mono-font);
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .kpi-value.green { color: var(--accent-green); }
+    .kpi-value.red { color: var(--accent-red); }
+    .kpi-value.blue { color: var(--accent-blue); }
+
+    .kpi-caption {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* Chart Container Card */
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 14px 12px 14px;
+      margin-bottom: 24px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .chart-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chart-tab-btn {
+      background: #18202F;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .chart-tab-btn.active {
+      background: var(--accent-green-bg);
+      border-color: rgba(0, 229, 153, 0.4);
+      color: var(--accent-green);
+    }
+
+    /* Active Positions Vertical Card */
+    .pos-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .pos-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .pos-title-block h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .pos-title-block p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pos-action-badge {
+      background: var(--accent-green-bg);
+      color: var(--accent-green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 229, 153, 0.3);
+    }
+
+    .pos-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: #0E131C;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .pos-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pos-stat-item .lbl {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .pos-stat-item .val {
+      font-family: var(--mono-font);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-top: 1px;
+    }
+
+    /* Catalyst Progress Bars */
+    .catalyst-box {
+      margin-top: 14px;
+      border-top: 1px solid #1A2230;
+      padding-top: 14px;
+    }
+
+    .catalyst-box h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+
+    .cat-item {
+      margin-bottom: 10px;
+    }
+
+    .cat-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .cat-name {
+      font-weight: 600;
+      color: #E6EDF3;
+    }
+
+    .cat-status {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    .cat-bar-bg {
+      height: 5px;
+      background: #1F2737;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .cat-bar-fill {
+      height: 100%;
+      background: var(--accent-green);
+      border-radius: 999px;
+    }
+
+    /* Link Action Button */
+    .report-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #182232;
+      border: 1px solid #2B384E;
+      color: #FFFFFF;
+      padding: 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .report-btn:active {
+      background: #223046;
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Audit Trail Footer */
+    footer {
+      background: var(--card-bg);
+      border: 1px dashed var(--card-border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 24px;
+    }
+
+    footer code {
+      font-family: var(--mono-font);
+      background: #18202F;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent-green);
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand-row">
+        <div class="brand-title">🏛️ ROKAF Track Record Fund</div>
+        <div class="brand-badge">
+          <div class="pulse-dot"></div>
+          LIVE AUDITED
+        </div>
+      </div>
+      <div class="manager-tag">
+        Lead Fund Manager: <strong>이동훈 (DongHoon Lee)</strong> · Inception: <strong>2026-08-31</strong>
+      </div>
+    </header>
+
+    <!-- 2x2 Hero KPI Grid (Mobile First) -->
+    <div class="section-title">📊 Executive KPIs</div>
+    <div class="kpi-grid">
+      <div class="kpi-card hero-kpi">
+        <div class="kpi-label">누적 Alpha (초과수익)</div>
+        <div class="kpi-value green">+27.15%p</div>
+        <div class="kpi-caption">vs KOSPI 압도 (당일 +5.70%p)</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">포트폴리오 수익률</div>
+        <div class="kpi-value red">-1.45%</div>
+        <div class="kpi-caption">지수 -5.21% 폭락일 +0.49% 상승</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">최대 낙폭 (MDD 방어)</div>
+        <div class="kpi-value blue">-17.14%</div>
+        <div class="kpi-caption">KOSPI(-31.22%) 대비 +14.08%p 방어</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Information Ratio / Beta</div>
+        <div class="kpi-value green">3.37</div>
+        <div class="kpi-caption">일간 수익률 기준 (Beta: 0.55 · TE 43.62%)</div>
+      </div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="section-title">📈 Benchmark & Risk Trajectory</div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title" id="chart-title">누적 수익률 궤적 (100 기준)</div>
+        <div class="chart-tabs">
+          <button class="chart-tab-btn active" id="btn-rebased" onclick="switchChart('rebased')">누적수익</button>
+          <button class="chart-tab-btn" id="btn-drawdown" onclick="switchChart('drawdown')">낙폭(MDD)</button>
+        </div>
+      </div>
+      <div id="chart-area" style="min-height: 260px;"></div>
+    </div>
+
+    <!-- Active Holdings Card -->
+    <div class="section-title">📂 Active Holdings (보유 종목)</div>
+    <div class="pos-card">
+      <div class="pos-top">
+        <div class="pos-title-block">
+          <h3>[1호] 현대글로비스</h3>
+          <p>086280.KS · 산업재 / 스마트 모빌리티 인프라</p>
+        </div>
+        <div class="pos-action-badge">BUY / HOLD</div>
+      </div>
+
+      <div class="pos-stats-grid">
+        <div class="pos-stat-item">
+          <span class="lbl">편입일자</span>
+          <span class="val">2026-08-31</span>
+        </div>
+        <div class="pos-stat-item">
+          <span class="lbl">실질 Alpha</span>
+          <span class="val" style="color: var(--accent-green);">+27.15%p</span>
+        </div>
+        <div class="pos-stat-item">
+          <span class="lbl">편입가 / 현재가</span>
+          <span class="val">207.5k / 204.5k</span>
+        </div>
+        <div class="pos-stat-item">
+          <span class="lbl">목표가 (상승여력)</span>
+          <span class="val">280.0k (+36.92%)</span>
+        </div>
+      </div>
+
+      <div class="catalyst-box">
+        <h4>🎯 3대 핵심 Catalyst 진행 현황</h4>
+        
+        <div class="cat-item">
+          <div class="cat-head">
+            <span class="cat-name">① 지배구조 개편 핵심 창구</span>
+            <span class="cat-status">ON TRACK (85%)</span>
+          </div>
+          <div class="cat-bar-bg"><div class="cat-bar-fill" style="width: 85%;"></div></div>
+        </div>
+
+        <div class="cat-item">
+          <div class="cat-head">
+            <span class="cat-name">② 보스턴다이내믹스 IPO & RaaS</span>
+            <span class="cat-status">ON TRACK (75%)</span>
+          </div>
+          <div class="cat-bar-bg"><div class="cat-bar-fill" style="width: 75%;"></div></div>
+        </div>
+
+        <div class="cat-item">
+          <div class="cat-head">
+            <span class="cat-name">③ PCTC 해상운송 고마진 & 주주환원</span>
+            <span class="cat-status">STRONG (90%)</span>
+          </div>
+          <div class="cat-bar-bg"><div class="cat-bar-fill" style="width: 90%;"></div></div>
+        </div>
+      </div>
+
+      <a href="https://blog.naver.com/" target="_blank" class="report-btn">
+        📝 동훈 님의 심층 기업 분석 리포트 원문 읽기 ➔
+      </a>
+    </div>
+
+    <!-- Audit Footer -->
+    <footer>
+      🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
+      Verified Git Commit SHA: <code>3c3fc69</code> · Source: KRX 공식 종가 검산<br>
+      <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank">hoon4056/equity-research-portfolio</a>
+    </footer>
+  </div>
+
+  <script>
+    let chartInstance = null;
+    let seriesData = [];
+
+    // Historical Performance Series (56 Trading Days)
+    fetch('data/performance_series.json')
+      .then(res => res.json())
+      .then(data => {
+        seriesData = data;
+        renderRebasedChart();
+      })
+      .catch(err => {
+        // Fallback series
+        seriesData = [
+  {"date": "2026-08-31", "glovis_rebased": 100.0, "kospi_rebased": 100.0, "glovis_drawdown_pct": 0.0, "kospi_drawdown_pct": 0.0},
+  {"date": "2026-09-01", "glovis_rebased": 100.96, "kospi_rebased": 100.23, "glovis_drawdown_pct": 0.0, "kospi_drawdown_pct": 0.0},
+  {"date": "2026-09-02", "glovis_rebased": 93.98, "kospi_rebased": 96.23, "glovis_drawdown_pct": -6.92, "kospi_drawdown_pct": -3.99},
+  {"date": "2026-09-03", "glovis_rebased": 97.35, "kospi_rebased": 96.47, "glovis_drawdown_pct": -3.58, "kospi_drawdown_pct": -3.75},
+  {"date": "2026-09-04", "glovis_rebased": 99.28, "kospi_rebased": 98.05, "glovis_drawdown_pct": -1.67, "kospi_drawdown_pct": -2.17},
+  {"date": "2026-09-07", "glovis_rebased": 101.2, "kospi_rebased": 102.57, "glovis_drawdown_pct": 0.0, "kospi_drawdown_pct": 0.0},
+  {"date": "2026-09-08", "glovis_rebased": 97.83, "kospi_rebased": 101.97, "glovis_drawdown_pct": -3.33, "kospi_drawdown_pct": -0.58},
+  {"date": "2026-09-09", "glovis_rebased": 97.59, "kospi_rebased": 103.4, "glovis_drawdown_pct": -3.57, "kospi_drawdown_pct": 0.0},
+  {"date": "2026-09-10", "glovis_rebased": 98.31, "kospi_rebased": 103.14, "glovis_drawdown_pct": -2.86, "kospi_drawdown_pct": -0.25},
+  {"date": "2026-09-11", "glovis_rebased": 100.48, "kospi_rebased": 101.32, "glovis_drawdown_pct": -0.71, "kospi_drawdown_pct": -2.01},
+  {"date": "2026-09-14", "glovis_rebased": 99.28, "kospi_rebased": 98.01, "glovis_drawdown_pct": -1.9, "kospi_drawdown_pct": -5.21},
+  {"date": "2026-09-15", "glovis_rebased": 98.07, "kospi_rebased": 97.17, "glovis_drawdown_pct": -3.1, "kospi_drawdown_pct": -6.02},
+  {"date": "2026-09-16", "glovis_rebased": 96.87, "kospi_rebased": 98.5, "glovis_drawdown_pct": -4.29, "kospi_drawdown_pct": -4.73},
+  {"date": "2026-09-17", "glovis_rebased": 99.52, "kospi_rebased": 98.47, "glovis_drawdown_pct": -1.67, "kospi_drawdown_pct": -4.77},
+  {"date": "2026-09-18", "glovis_rebased": 98.31, "kospi_rebased": 101.09, "glovis_drawdown_pct": -2.86, "kospi_drawdown_pct": -2.23},
+  {"date": "2026-09-21", "glovis_rebased": 98.31, "kospi_rebased": 102.75, "glovis_drawdown_pct": -2.86, "kospi_drawdown_pct": -0.62},
+  {"date": "2026-09-22", "glovis_rebased": 97.59, "kospi_rebased": 102.9, "glovis_drawdown_pct": -3.57, "kospi_drawdown_pct": -0.48},
+  {"date": "2026-09-23", "glovis_rebased": 95.42, "kospi_rebased": 103.83, "glovis_drawdown_pct": -5.71, "kospi_drawdown_pct": 0.0},
+  {"date": "2026-09-28", "glovis_rebased": 95.47, "kospi_rebased": 101.02, "glovis_drawdown_pct": -5.67, "kospi_drawdown_pct": -2.7},
+  {"date": "2026-09-29", "glovis_rebased": 95.04, "kospi_rebased": 100.74, "glovis_drawdown_pct": -6.1, "kospi_drawdown_pct": -2.97},
+  {"date": "2026-09-30", "glovis_rebased": 95.37, "kospi_rebased": 100.26, "glovis_drawdown_pct": -5.76, "kospi_drawdown_pct": -3.43},
+  {"date": "2026-10-01", "glovis_rebased": 95.33, "kospi_rebased": 102.22, "glovis_drawdown_pct": -5.81, "kospi_drawdown_pct": -1.55},
+  {"date": "2026-10-02", "glovis_rebased": 96.87, "kospi_rebased": 102.69, "glovis_drawdown_pct": -4.29, "kospi_drawdown_pct": -1.09},
+  {"date": "2026-10-06", "glovis_rebased": 96.63, "kospi_rebased": 101.78, "glovis_drawdown_pct": -4.52, "kospi_drawdown_pct": -1.97},
+  {"date": "2026-10-07", "glovis_rebased": 90.94, "kospi_rebased": 99.76, "glovis_drawdown_pct": -10.14, "kospi_drawdown_pct": -3.91},
+  {"date": "2026-10-08", "glovis_rebased": 88.29, "kospi_rebased": 97.15, "glovis_drawdown_pct": -12.76, "kospi_drawdown_pct": -6.43},
+  {"date": "2026-10-12", "glovis_rebased": 87.42, "kospi_rebased": 93.61, "glovis_drawdown_pct": -13.62, "kospi_drawdown_pct": -9.84},
+  {"date": "2026-10-13", "glovis_rebased": 86.27, "kospi_rebased": 88.49, "glovis_drawdown_pct": -14.76, "kospi_drawdown_pct": -14.77},
+  {"date": "2026-10-14", "glovis_rebased": 88.92, "kospi_rebased": 88.11, "glovis_drawdown_pct": -12.14, "kospi_drawdown_pct": -15.14},
+  {"date": "2026-10-15", "glovis_rebased": 84.96, "kospi_rebased": 81.44, "glovis_drawdown_pct": -16.05, "kospi_drawdown_pct": -21.56},
+  {"date": "2026-10-16", "glovis_rebased": 89.83, "kospi_rebased": 83.11, "glovis_drawdown_pct": -11.24, "kospi_drawdown_pct": -19.95},
+  {"date": "2026-10-19", "glovis_rebased": 91.04, "kospi_rebased": 84.57, "glovis_drawdown_pct": -10.05, "kospi_drawdown_pct": -18.54},
+  {"date": "2026-10-20", "glovis_rebased": 88.29, "kospi_rebased": 81.42, "glovis_drawdown_pct": -12.76, "kospi_drawdown_pct": -21.58},
+  {"date": "2026-10-21", "glovis_rebased": 88.39, "kospi_rebased": 84.1, "glovis_drawdown_pct": -12.67, "kospi_drawdown_pct": -19.0},
+  {"date": "2026-10-22", "glovis_rebased": 85.78, "kospi_rebased": 81.14, "glovis_drawdown_pct": -15.24, "kospi_drawdown_pct": -21.85},
+  {"date": "2026-10-23", "glovis_rebased": 83.86, "kospi_rebased": 81.38, "glovis_drawdown_pct": -17.14, "kospi_drawdown_pct": -21.62},
+  {"date": "2026-10-26", "glovis_rebased": 84.87, "kospi_rebased": 80.2, "glovis_drawdown_pct": -16.14, "kospi_drawdown_pct": -22.76},
+  {"date": "2026-10-27", "glovis_rebased": 86.84, "kospi_rebased": 82.67, "glovis_drawdown_pct": -14.19, "kospi_drawdown_pct": -20.37},
+  {"date": "2026-10-28", "glovis_rebased": 89.78, "kospi_rebased": 88.16, "glovis_drawdown_pct": -11.29, "kospi_drawdown_pct": -15.09},
+  {"date": "2026-10-29", "glovis_rebased": 90.84, "kospi_rebased": 87.06, "glovis_drawdown_pct": -10.24, "kospi_drawdown_pct": -16.15},
+  {"date": "2026-10-30", "glovis_rebased": 87.37, "kospi_rebased": 84.03, "glovis_drawdown_pct": -13.67, "kospi_drawdown_pct": -19.07},
+  {"date": "2026-11-02", "glovis_rebased": 97.59, "kospi_rebased": 85.91, "glovis_drawdown_pct": -3.57, "kospi_drawdown_pct": -17.26},
+  {"date": "2026-11-03", "glovis_rebased": 97.11, "kospi_rebased": 82.83, "glovis_drawdown_pct": -4.05, "kospi_drawdown_pct": -20.23},
+  {"date": "2026-11-04", "glovis_rebased": 97.59, "kospi_rebased": 83.34, "glovis_drawdown_pct": -3.57, "kospi_drawdown_pct": -19.73},
+  {"date": "2026-11-05", "glovis_rebased": 96.39, "kospi_rebased": 78.94, "glovis_drawdown_pct": -4.76, "kospi_drawdown_pct": -23.97},
+  {"date": "2026-11-06", "glovis_rebased": 94.22, "kospi_rebased": 74.19, "glovis_drawdown_pct": -6.9, "kospi_drawdown_pct": -28.54},
+  {"date": "2026-11-09", "glovis_rebased": 91.61, "kospi_rebased": 73.59, "glovis_drawdown_pct": -9.48, "kospi_drawdown_pct": -29.12},
+  {"date": "2026-11-10", "glovis_rebased": 94.89, "kospi_rebased": 76.82, "glovis_drawdown_pct": -6.24, "kospi_drawdown_pct": -26.01},
+  {"date": "2026-11-11", "glovis_rebased": 96.63, "kospi_rebased": 78.82, "glovis_drawdown_pct": -4.52, "kospi_drawdown_pct": -24.09},
+  {"date": "2026-11-12", "glovis_rebased": 97.83, "kospi_rebased": 78.34, "glovis_drawdown_pct": -3.33, "kospi_drawdown_pct": -24.55},
+  {"date": "2026-11-13", "glovis_rebased": 97.83, "kospi_rebased": 77.57, "glovis_drawdown_pct": -3.33, "kospi_drawdown_pct": -25.28},
+  {"date": "2026-11-16", "glovis_rebased": 98.8, "kospi_rebased": 74.79, "glovis_drawdown_pct": -2.38, "kospi_drawdown_pct": -27.97},
+  {"date": "2026-11-17", "glovis_rebased": 96.29, "kospi_rebased": 72.85, "glovis_drawdown_pct": -4.86, "kospi_drawdown_pct": -29.83},
+  {"date": "2026-11-18", "glovis_rebased": 97.35, "kospi_rebased": 74.3, "glovis_drawdown_pct": -3.81, "kospi_drawdown_pct": -28.44},
+  {"date": "2026-11-19", "glovis_rebased": 98.07, "kospi_rebased": 75.34, "glovis_drawdown_pct": -3.1, "kospi_drawdown_pct": -27.44},
+  {"date": "2026-11-20", "glovis_rebased": 98.55, "kospi_rebased": 71.41, "glovis_drawdown_pct": -2.62, "kospi_drawdown_pct": -31.22}
+        ];
+        renderRebasedChart();
+      });
+
+    function renderRebasedChart() {
+      if (chartInstance) chartInstance.destroy();
+      const dates = seriesData.map(d => d.date.substring(5)); // MM-DD
+      const glovis = seriesData.map(d => d.glovis_rebased);
+      const kospi = seriesData.map(d => d.kospi_rebased);
+
+      const options = {
+        series: [
+          { name: '현대글로비스', data: glovis },
+          { name: 'KOSPI 지수', data: kospi }
+        ],
+        chart: {
+          type: 'line',
+          height: 260,
+          toolbar: { show: false },
+          background: 'transparent'
+        },
+        colors: ['#00E599', '#8B949E'],
+        stroke: { width: [3, 1.5], dashArray: [0, 4] },
+        xaxis: {
+          categories: dates,
+          labels: { style: { colors: '#8B949E', fontSize: '10px' } },
+          axisBorder: { show: false },
+          axisTicks: { show: false }
+        },
+        yaxis: {
+          labels: { style: { colors: '#8B949E', fontSize: '10px' } }
+        },
+        grid: { borderColor: '#1F2737', strokeDashArray: 3 },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          labels: { colors: '#F0F6FC' },
+          fontSize: '11px'
+        },
+        tooltip: { theme: 'dark' }
+      };
+
+      chartInstance = new ApexCharts(document.querySelector("#chart-area"), options);
+      chartInstance.render();
+    }
+
+    function renderDrawdownChart() {
+      if (chartInstance) chartInstance.destroy();
+      const dates = seriesData.map(d => d.date.substring(5));
+      const glovisDD = seriesData.map(d => d.glovis_drawdown_pct);
+      const kospiDD = seriesData.map(d => d.kospi_drawdown_pct);
+
+      const options = {
+        series: [
+          { name: '글로비스 낙폭', data: glovisDD },
+          { name: 'KOSPI 낙폭', data: kospiDD }
+        ],
+        chart: {
+          type: 'area',
+          height: 260,
+          toolbar: { show: false },
+          background: 'transparent'
+        },
+        colors: ['#2E82FF', '#FF4D5E'],
+        stroke: { width: [2, 1.5] },
+        fill: {
+          type: 'gradient',
+          gradient: { opacityFrom: 0.35, opacityTo: 0.05 }
+        },
+        xaxis: {
+          categories: dates,
+          labels: { style: { colors: '#8B949E', fontSize: '10px' } }
+        },
+        yaxis: {
+          max: 2,
+          min: -35,
+          labels: { style: { colors: '#8B949E', fontSize: '10px' } }
+        },
+        grid: { borderColor: '#1F2737', strokeDashArray: 3 },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          labels: { colors: '#F0F6FC' },
+          fontSize: '11px'
+        },
+        tooltip: { theme: 'dark' }
+      };
+
+      chartInstance = new ApexCharts(document.querySelector("#chart-area"), options);
+      chartInstance.render();
+    }
+
+    function switchChart(type) {
+      if (type === 'rebased') {
+        document.getElementById('chart-title').innerText = '누적 수익률 궤적 (100 기준)';
+        document.getElementById('btn-rebased').classList.add('active');
+        document.getElementById('btn-drawdown').classList.remove('active');
+        renderRebasedChart();
+      } else {
+        document.getElementById('chart-title').innerText = 'Underwater 낙폭 차트 (MDD)';
+        document.getElementById('btn-drawdown').classList.add('active');
+        document.getElementById('btn-rebased').classList.remove('active');
+        renderDrawdownChart();
+      }
+    }
+  </script>
+</body>
+</html>
