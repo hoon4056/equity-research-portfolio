@@ -196,8 +196,8 @@ with col2:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">Information Ratio / Beta</div>
-        <div class="kpi-val-green">3.37</div>
-        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.55 · TE 43.62%)</div>
+        <div class="kpi-val-green">3.32</div>
+        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.54 · TE 44.24%)</div>
     </div>
     """, unsafe_allow_html=True)
 

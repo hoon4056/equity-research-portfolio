@@ -613,39 +613,45 @@
   },
   {
     "date": "2026-11-16",
-    "glovis_price": 205000.0,
+    "glovis_price": 207000.0,
     "kospi_index": 5100.5,
-    "glovis_rebased": 98.8,
+    "glovis_rebased": 99.76,
     "kospi_rebased": 74.79,
-    "glovis_ret_pct": -1.2,
+    "glovis_ret_pct": -0.24,
     "kospi_ret_pct": -25.21,
-    "alpha_pct": 24.01,
-    "glovis_drawdown_pct": -2.38,
-    "kospi_drawdown_pct": -27.97
+    "alpha_pct": 24.97,
+    "glovis_drawdown_pct": -1.43,
+    "kospi_drawdown_pct": -27.97,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority"
   },
   {
     "date": "2026-11-17",
-    "glovis_price": 199800.0,
+    "glovis_price": 201000.0,
     "kospi_index": 4968.48,
-    "glovis_rebased": 96.29,
+    "glovis_rebased": 96.87,
     "kospi_rebased": 72.85,
-    "glovis_ret_pct": -3.71,
+    "glovis_ret_pct": -3.13,
     "kospi_ret_pct": -27.15,
-    "alpha_pct": 23.44,
-    "glovis_drawdown_pct": -4.86,
-    "kospi_drawdown_pct": -29.83
+    "alpha_pct": 24.02,
+    "glovis_drawdown_pct": -4.29,
+    "kospi_drawdown_pct": -29.83,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority"
   },
   {
     "date": "2026-11-18",
-    "glovis_price": 202000.0,
+    "glovis_price": 204000.0,
     "kospi_index": 5067.44,
-    "glovis_rebased": 97.35,
+    "glovis_rebased": 98.31,
     "kospi_rebased": 74.3,
-    "glovis_ret_pct": -2.65,
+    "glovis_ret_pct": -1.69,
     "kospi_ret_pct": -25.7,
-    "alpha_pct": 23.05,
-    "glovis_drawdown_pct": -3.81,
-    "kospi_drawdown_pct": -28.44
+    "alpha_pct": 24.01,
+    "glovis_drawdown_pct": -2.86,
+    "kospi_drawdown_pct": -28.44,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority"
   },
   {
     "date": "2026-11-19",
@@ -657,7 +663,9 @@
     "kospi_ret_pct": -24.66,
     "alpha_pct": 22.74,
     "glovis_drawdown_pct": -3.1,
-    "kospi_drawdown_pct": -27.44
+    "kospi_drawdown_pct": -27.44,
+    "price_source": "krx",
+    "crosscheck_status": "confirmed"
   },
   {
     "date": "2026-11-20",
