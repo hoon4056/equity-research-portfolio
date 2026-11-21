@@ -188,16 +188,16 @@ with col2:
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">최대 낙폭 (MDD 방어)</div>
-        <div class="kpi-val-blue">-17.14%</div>
-        <div class="kpi-desc">KOSPI(-31.22%) 대비 +14.08%p 방어</div>
+        <div class="kpi-val-blue">-16.24%</div>
+        <div class="kpi-desc">KOSPI(-31.22%) 대비 +14.98%p 방어</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="kpi-card">
         <div class="kpi-title">Information Ratio / Beta</div>
-        <div class="kpi-val-green">3.32</div>
-        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.54 · TE 44.24%)</div>
+        <div class="kpi-val-green">3.26</div>
+        <div class="kpi-desc">일간 수익률 기준 (Beta: 0.53 · TE 45.19%)</div>
     </div>
     """, unsafe_allow_html=True)
 
