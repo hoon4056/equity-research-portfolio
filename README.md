@@ -53,5 +53,5 @@
 ---
 
 ## 💻 대시보드 바로가기
-- **[🌐 GitHub Pages 인터랙티브 대시보드 열기](https://hoon4056.github.io/equity-research-portfolio/)**
+- **[🌐 GitHub Pages 인터랙티브 대시보드 열기](https://hoon4056.github.io/equity-research-portfolio/)** — `gh-pages` 브랜치를 서빙 소스로 사용하며(2026-11-21 활성화), 일일 정산 시 `python3 portfolio/tracker.py`가 `index.html`·`data/`를 자동 동기화합니다.
 - **[📱 Streamlit Cloud 대시보드 열기](https://hoon4056-equity-research-portfolio.streamlit.app/)**
