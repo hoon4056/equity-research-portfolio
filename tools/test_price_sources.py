@@ -49,6 +49,39 @@ class CrosscheckRules(unittest.TestCase):
         self.assertEqual(r["status"], "blocked")
         self.assertIsNone(r["close"])
 
+    def test_large_spread_exposes_krx_candidate_only(self):
+        # 2026-11-24 실제 상황: 네이버(NXT 포함) 200,000 vs KRX 206,500 (괴리 3.25%)
+        q = {"naver": {D: 200000.0}, "daum": {D: 206500.0}, "yahoo": {D: 206500.0}}
+        r = ps.crosscheck(D, q)
+        self.assertEqual(r["status"], "blocked")            # 기본값은 여전히 차단
+        self.assertIsNone(r["close"])
+        self.assertEqual(r["krx_close"], 206500.0)
+        self.assertEqual(set(r["krx_sources"]), {"daum", "yahoo"})
+
+    def test_regular_disagreement_has_no_candidate(self):
+        q = {"naver": {D: 190000.0}, "daum": {D: 204500.0}, "yahoo": {D: 207000.0}}
+        r = ps.crosscheck(D, q)
+        self.assertEqual(r["status"], "blocked")
+        self.assertNotIn("krx_close", r)                     # 확인 확정도 불가
+        with self.assertRaises(ValueError):
+            ps.confirm_blocked(r, "확인")
+
+    def test_confirm_blocked_uses_krx_close_and_keeps_evidence(self):
+        q = {"naver": {D: 200000.0}, "daum": {D: 206500.0}, "yahoo": {D: 206500.0}}
+        r = ps.crosscheck(D, q)
+        c = ps.confirm_blocked(r, "Google Finance 15:30 정규장 종가·코스콤 피드 206,500원 대조")
+        self.assertEqual(c["status"], "krx_priority_confirmed")
+        self.assertEqual(c["close"], 206500.0)
+        self.assertEqual(c["price_source"], "krx")
+        self.assertEqual(c["sources"]["naver"], 200000.0)   # 괴리 원값 보존
+        self.assertTrue(c["spread_pct"])
+        self.assertTrue(any("확인 확정" in w for w in c["warnings"]))
+
+    def test_confirm_blocked_requires_reason(self):
+        q = {"naver": {D: 200000.0}, "daum": {D: 206500.0}, "yahoo": {D: 206500.0}}
+        with self.assertRaises(ValueError):
+            ps.confirm_blocked(ps.crosscheck(D, q), "  ")
+
     def test_single_source_is_flagged(self):
         q = {"naver": {D: 202500.0}}
         r = ps.crosscheck(D, q)

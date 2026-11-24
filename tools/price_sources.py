@@ -15,6 +15,9 @@
   3. 네이버 일별시세는 NXT 시간외 포함 계열로 보고, 괴리가 있으면 숨기지 않고
      기록·경고한다. 괴리 폭이 비정상(기본 3%)이면 정산을 차단한다.
   4. 소스가 1개뿐이면 정산은 하되 상태를 '단일소스'로 표시해 감사로그에 남긴다.
+  5. 괴리가 허용치를 넘어 차단된 경우에도 정규장 계열(다음금융·Yahoo)이 만장일치면
+     그 값을 '확인 확정 후보(krx_close)'로 결과에 실어 보낸다. 확정은 사람이 근거를
+     남겨 확인한 뒤에만 한다(`confirm_blocked`) — 차단 자체는 기본값으로 유지된다.
 
 CLI
   python3 tools/price_sources.py --code 086280 --date 2026-11-20
@@ -158,8 +161,15 @@ def crosscheck(date: str, quotes: dict[str, dict[str, float]],
 
     if spread_pct is not None and spread_pct > max_spread_pct:
         warnings.append(f"소스 간 괴리 {spread_pct:.2f}% > 허용 {max_spread_pct}% — 시세 이상, 정산 차단.")
-        return {"date": date, "close": None, "price_source": None, "status": "blocked",
-                "sources": got, "spread_pct": round(spread_pct, 4), "warnings": warnings}
+        res = {"date": date, "close": None, "price_source": None, "status": "blocked",
+               "sources": got, "spread_pct": round(spread_pct, 4), "warnings": warnings}
+        # 정규장 계열이 만장일치면 '사람 확인 확정'용 후보값만 함께 남긴다(차단 상태는 유지).
+        if len(regular) >= 2:
+            vals = list(regular.values())
+            if all(agree(vals[0], v) for v in vals[1:]):
+                res["krx_close"] = vals[0]
+                res["krx_sources"] = dict(regular)
+        return res
 
     if len(regular) >= 2:
         vals = list(regular.values())
@@ -193,6 +203,31 @@ def crosscheck(date: str, quotes: dict[str, dict[str, float]],
     warnings.append("정규장 계열 소스 부족 — 가용 소스 다수값으로 대체했습니다.")
     return {"date": date, "close": best, "price_source": "fallback", "status": "fallback",
             "sources": got, "spread_pct": round(spread_pct or 0, 4), "warnings": warnings}
+
+
+def confirm_blocked(res: dict, reason: str) -> dict:
+    """차단된 교차검증을 사람이 확인해 확정한다(정규장 계열 만장일치일 때만 허용).
+
+    차단 사유(참고 소스 괴리·시세 이상)를 지우지 않고 warnings에 확인 근거를 덧붙여
+    감사로그에 그대로 남긴다. 정규장 계열이 어긋난 경우에는 후보값이 없어 확정 불가.
+    """
+    if res.get("status") != "blocked":
+        raise ValueError(f"차단 상태가 아닙니다(status={res.get('status')}).")
+    if res.get("krx_close") is None:
+        raise ValueError("정규장 계열 확정 후보가 없습니다 — 정규장 소스가 서로 어긋나 확인 확정 불가.")
+    if not (reason or "").strip():
+        raise ValueError("확인 근거(reason)가 비어 있습니다.")
+    out = dict(res)
+    out["status"] = "krx_priority_confirmed"
+    out["close"] = res["krx_close"]
+    out["price_source"] = "krx"
+    out["confirmed_reason"] = reason.strip()
+    out["confirmed_at"] = dt.datetime.now().astimezone().isoformat(timespec="seconds")
+    out["warnings"] = list(res.get("warnings", [])) + [
+        f"확인 확정: {reason.strip()} — 정규장 계열({', '.join(sorted(res.get('krx_sources', {})))})"
+        f" {res['krx_close']:,.0f}원 만장일치로 확정."
+    ]
+    return out
 
 
 def verify(code: str, ticker: str, date: str, lookback_days: int = 20) -> dict:
