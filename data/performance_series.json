@@ -838,5 +838,33 @@
     "price_source": "krx",
     "crosscheck_status": "krx_priority",
     "verified_at": "2026-11-21"
+  },
+  {
+    "date": "2026-11-23",
+    "glovis_price": 190200.0,
+    "kospi_index": 4708.54,
+    "glovis_rebased": 91.66,
+    "kospi_rebased": 69.04,
+    "glovis_ret_pct": -8.34,
+    "kospi_ret_pct": -30.96,
+    "alpha_pct": 22.62,
+    "glovis_drawdown_pct": -9.43,
+    "kospi_drawdown_pct": -33.5,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority"
+  },
+  {
+    "date": "2026-11-24",
+    "glovis_price": 206500.0,
+    "kospi_index": 5006.03,
+    "glovis_rebased": 99.52,
+    "kospi_rebased": 73.4,
+    "glovis_ret_pct": -0.48,
+    "kospi_ret_pct": -26.6,
+    "alpha_pct": 26.12,
+    "glovis_drawdown_pct": -1.67,
+    "kospi_drawdown_pct": -29.3,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority_confirmed"
   }
 ]
