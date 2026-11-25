@@ -3,7 +3,7 @@
 
 [![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-00E599?style=for-the-badge&logo=github)](https://hoon4056.github.io/equity-research-portfolio/)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit)](https://hoon4056-equity-research-portfolio.streamlit.app/)
-[![Audit Status](https://img.shields.io/badge/Audit%20Status-Verified%20ff9b414-2E82FF?style=for-the-badge)](data/trade_log.csv)
+[![Audit Status](https://img.shields.io/badge/Audit%20Status-Verified%203cb70de-2E82FF?style=for-the-badge)](data/trade_log.csv)
 
 ---
 
