@@ -359,7 +359,7 @@ def _stamp_snapshot(date: str, path: Path, entry: dict) -> dict:
     """스냅샷 파일을 OpenTimestamps 공개 캘린더에 제출하고 .ots를 저장한다.
 
     네트워크·캘린더 장애는 정산을 막지 않는다. 실패하면 경고만 남기고
-    `python3 tools/timestamp.py stamp audit/snapshots/<date>.json`으로 재시도할 수 있다.
+    `python3 tools/audit_engine.py seal <date> --stamp`(멱등)로 재시도할 수 있다.
     """
     import timestamp as ots  # 같은 tools/ 디렉터리
 
@@ -381,7 +381,7 @@ def _stamp_snapshot(date: str, path: Path, entry: dict) -> dict:
             info = {"ots": str(out.relative_to(REPO)), **{k: v for k, v in info.items() if k != "ots"}}
     except Exception as exc:  # noqa: BLE001 — 봉인 실패는 정산을 막지 않는다
         print(f"[audit] ! OpenTimestamps 봉인 실패({date}): {type(exc).__name__}: {exc}")
-        print(f"[audit]   재시도: python3 tools/timestamp.py stamp audit/snapshots/{date}.json")
+        print(f"[audit]   재시도: python3 tools/audit_engine.py seal {date} --stamp")
         return {"ots": None, "ots_status": "failed", "ots_error": f"{type(exc).__name__}: {exc}"}
 
     _append_line(SEALS, {

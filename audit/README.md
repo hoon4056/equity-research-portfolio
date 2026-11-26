@@ -30,7 +30,7 @@ chain_sha256    = sha256( prev_chain_sha256 + "\n" + seq + "\n" + date + "\n" + 
 - **봉인 시각은 스냅샷 본문에 넣지 않습니다.** 본문이 같으면 해시가 같아야 재봉인이 멱등이 되기
   때문입니다. 봉인 시각은 `hash_chain.jsonl`·`seals.jsonl`에 남습니다.
 - **봉인 실패는 정산을 막지 않습니다.** 네트워크·캘린더 장애 시 경고만 남기고, 다음 실행에서
-  `python3 tools/timestamp.py stamp audit/snapshots/<date>.json` 로 재시도합니다.
+  `python3 tools/audit_engine.py seal <date> --stamp`(멱등)로 재시도합니다.
 
 ## OpenTimestamps
 
@@ -48,5 +48,5 @@ chain_sha256    = sha256( prev_chain_sha256 + "\n" + seq + "\n" + date + "\n" + 
 python3 verify.py
 sha256sum audit/snapshots/2026-11-25.json
 python3 tools/timestamp.py show audit/ots/2026-11-25.ots
-python3 tools/timestamp.py verify audit/snapshots/2026-11-25.json
+python3 tools/timestamp.py verify audit/snapshots/2026-11-25.json --ots audit/ots/2026-11-25.ots
 ```

@@ -282,7 +282,7 @@ def check_seals(rep: Report, upgrade: bool = False) -> None:
     attested = 0
     for rec in records:
         if not rec.get("ots"):
-            rep.warn(t, f"{rec['date']} OTS 증명 없음(봉인 실패) — 재시도: python3 tools/timestamp.py stamp {rec['file']}")
+            rep.warn(t, f"{rec['date']} OTS 증명 없음(봉인 실패) — 재시도: python3 tools/audit_engine.py seal {rec['date']} --stamp")
             continue
         path = REPO / rec["file"]
         ots_path = REPO / rec["ots"]
