@@ -1,11 +1,11 @@
 {
-  "chain_head_date": "2026-11-25",
-  "chain_head_seq": 59,
-  "chain_head_sha256": "adf4afe49d50604e8876409fcc453e49abeb60fdcd060b481968012b5fd4ee0a",
+  "chain_head_date": "2026-11-26",
+  "chain_head_seq": 60,
+  "chain_head_sha256": "5f354097e6bbf7a41e542994761e3392a1ae9d9bf70522946ca4b1032dca5a00",
   "chain_rule": "chain_sha256 = sha256(prev_chain_sha256 + '\\n' + seq + '\\n' + date + '\\n' + kind + '\\n' + snapshot_sha256)",
-  "days": 59,
-  "entries": 59,
-  "generated_at": "2026-11-26T13:40:25+09:00",
+  "days": 60,
+  "entries": 60,
+  "generated_at": "2026-11-26T23:04:53+09:00",
   "hash_algorithm": "sha256",
   "phases": {
     "Phase 1": {

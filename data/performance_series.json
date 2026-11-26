@@ -880,5 +880,19 @@
     "kospi_drawdown_pct": -33.66,
     "price_source": "krx",
     "crosscheck_status": "krx_priority"
+  },
+  {
+    "date": "2026-11-26",
+    "glovis_price": 198100.0,
+    "kospi_index": 4711.21,
+    "glovis_rebased": 95.47,
+    "kospi_rebased": 69.08,
+    "glovis_ret_pct": -4.53,
+    "kospi_ret_pct": -30.92,
+    "alpha_pct": 26.39,
+    "glovis_drawdown_pct": -5.67,
+    "kospi_drawdown_pct": -33.47,
+    "price_source": "krx",
+    "crosscheck_status": "krx_priority"
   }
 ]
