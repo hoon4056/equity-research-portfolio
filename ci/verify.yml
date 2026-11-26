@@ -1,0 +1,60 @@
+name: verify
+
+# 재현 가능 검증 CI — 제3자가 로컬에서 돌리는 것과 같은 명령(`python3 verify.py`)을 실행한다.
+#   · push / pull_request : 누가 어떤 변경을 올려도 계산·표기·해시 체인이 맞는지 확인
+#   · 매일 18:00 KST(평일) : 장 마감 후 정산이 반영됐는지 확인
+#   · workflow_dispatch    : 수동 실행
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 9 * * 1-5"   # 09:00 UTC = 18:00 KST, 월~금
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: 계산 재현 · 해시 체인 · OTS 검증
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 의존성 확인 (표준 라이브러리만 사용 — 설치 없음)
+        run: python3 -c "import sys; print(sys.version)"
+
+      - name: verify.py — 계산 재현 + 표기 일치 + 스냅샷 해시 체인 + OpenTimestamps 증명
+        run: python3 verify.py
+
+      - name: 단위 테스트
+        run: python3 -m unittest tools.test_audit_engine tools.test_price_sources -v
+
+      - name: 참고 — 최근 종가 공개 시세 대조 (실패해도 CI는 통과)
+        continue-on-error: true
+        run: python3 verify.py --live-prices
+
+      - name: 검증 결과 요약 (JSON, 실패 시에도 업로드)
+        if: always()
+        run: python3 verify.py --json > verify-report.json || true
+
+      - name: 아티팩트 업로드
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-report
+          path: verify-report.json
+          retention-days: 30

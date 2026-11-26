@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-22",
+  "fund": "ROKAF Military Service Track Record Fund",
+  "inputs": {
+    "benchmark_entry_index": 6820.02,
+    "crosscheck_status": "krx_priority",
+    "entry_price": 207500.0,
+    "glovis_price": 178100.0,
+    "kospi_index": 5533.77,
+    "price_source": "krx",
+    "verified_at": "2026-11-21"
+  },
+  "phase": "Phase 1",
+  "policy": {
+    "stop_loss_price": 170000,
+    "stop_margin_pct": 4.76,
+    "target_price": 280000,
+    "upside_left_pct": 57.22
+  },
+  "recomputed": {
+    "alpha_pct": 4.69,
+    "glovis_drawdown_pct": -15.19,
+    "glovis_rebased": 85.83,
+    "glovis_ret_pct": -14.17,
+    "kospi_drawdown_pct": -21.85,
+    "kospi_rebased": 81.14,
+    "kospi_ret_pct": -18.86
+  },
+  "schema": "rokaftf.snapshot/1",
+  "seal": {
+    "mode": "retroactive"
+  },
+  "seq": 35,
+  "stored": {
+    "alpha_pct": 4.69,
+    "glovis_drawdown_pct": -15.19,
+    "glovis_rebased": 85.83,
+    "glovis_ret_pct": -14.17,
+    "kospi_drawdown_pct": -21.85,
+    "kospi_rebased": 81.14,
+    "kospi_ret_pct": -18.86
+  }
+}

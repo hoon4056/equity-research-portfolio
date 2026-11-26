@@ -1,0 +1,27 @@
+{
+  "chain_head_date": "2026-11-25",
+  "chain_head_seq": 59,
+  "chain_head_sha256": "adf4afe49d50604e8876409fcc453e49abeb60fdcd060b481968012b5fd4ee0a",
+  "chain_rule": "chain_sha256 = sha256(prev_chain_sha256 + '\\n' + seq + '\\n' + date + '\\n' + kind + '\\n' + snapshot_sha256)",
+  "days": 59,
+  "entries": 59,
+  "generated_at": "2026-11-26T13:40:25+09:00",
+  "hash_algorithm": "sha256",
+  "phases": {
+    "Phase 1": {
+      "end": "2026-11-11",
+      "start": "2026-08-31"
+    },
+    "Phase 2": {
+      "end": "2026-11-25",
+      "start": "2026-11-12"
+    },
+    "Phase 3": {
+      "end": "9999-12-31",
+      "start": "2026-11-26"
+    }
+  },
+  "schema": "rokaftf.hashchain/1",
+  "snapshot_canonicalization": "json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + '\\n' (UTF-8)",
+  "snapshot_schema": "rokaftf.snapshot/1"
+}

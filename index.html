@@ -351,6 +351,106 @@
       color: var(--accent-green);
     }
 
+    /* Trust Phases / Verify Card */
+    .trust-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .phase-row {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #18202F;
+      align-items: flex-start;
+    }
+
+    .phase-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .phase-tag {
+      flex: 0 0 auto;
+      font-family: var(--mono-font);
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 3px 6px;
+      border-radius: 5px;
+      margin-top: 1px;
+    }
+
+    .phase-tag.p1 { color: #C9A227; background: rgba(201, 162, 39, 0.12); border: 1px solid rgba(201, 162, 39, 0.35); }
+    .phase-tag.p2 { color: var(--accent-blue); background: var(--accent-blue-bg); border: 1px solid rgba(46, 130, 255, 0.35); }
+    .phase-tag.p3 { color: var(--accent-green); background: var(--accent-green-bg); border: 1px solid rgba(0, 229, 153, 0.35); }
+
+    .phase-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .phase-body strong {
+      font-size: 0.78rem;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .phase-body span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .verify-box {
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid rgba(0, 229, 153, 0.28);
+      border-radius: 9px;
+      background: rgba(0, 229, 153, 0.05);
+    }
+
+    .verify-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      margin-bottom: 7px;
+    }
+
+    .verify-box code {
+      display: block;
+      font-family: var(--mono-font);
+      font-size: 0.68rem;
+      color: var(--text);
+      background: #0C1118;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 8px;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.55;
+    }
+
+    .verify-note {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+
+    .verify-box a {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
     /* Audit Trail Footer */
     footer {
       background: var(--card-bg);
@@ -499,10 +599,50 @@
       </a>
     </div>
 
+    <!-- Trust Phases & Verification -->
+    <div class="section-title">🕒 신뢰 구간 (Trust Phases)</div>
+    <div class="trust-card">
+      <div class="phase-row">
+        <span class="phase-tag p1">PHASE 1</span>
+        <div class="phase-body">
+          <strong>2026-08-31 ~ 11-11 · 초기 기록 이관</strong>
+          <span>트랙 레코드 이관 후 전 구간 KRX 정규장 확정 종가로 통일 (2026-11-26 소급 봉인)</span>
+        </div>
+      </div>
+      <div class="phase-row">
+        <span class="phase-tag p2">PHASE 2</span>
+        <div class="phase-body">
+          <strong>2026-11-11 ~ 11-25 · 자동 정산</strong>
+          <span>매일 23:00 KST 정산 + 3중 시세 교차검증 (다음금융·Yahoo·네이버)</span>
+        </div>
+      </div>
+      <div class="phase-row">
+        <span class="phase-tag p3">PHASE 3</span>
+        <div class="phase-body">
+          <strong>2026-11-26 ~ · 암호학적 봉인</strong>
+          <span>스냅샷 SHA-256 해시 체인 + OpenTimestamps 블록체인 타임스탬프 + 재현 가능 CI 검증</span>
+        </div>
+      </div>
+
+      <div class="verify-box">
+        <div class="verify-title">🔍 누구나 직접 검증</div>
+        <code>git clone https://github.com/hoon4056/equity-research-portfolio.git
+cd equity-research-portfolio
+python3 verify.py</code>
+        <div class="verify-note">
+          원값에서 수익률·Alpha·MDD·Beta·IR을 처음부터 재계산해 이 화면의 수치와 대조하고,
+          일별 스냅샷 SHA-256 해시 체인과 OpenTimestamps 증명까지 한 번에 확인합니다.
+          Phase 1~2는 2026-11-26 소급 봉인, Phase 3부터는 정산 당일 봉인입니다.
+        </div>
+        <a href="https://github.com/hoon4056/equity-research-portfolio/blob/main/verify.py" target="_blank">verify.py 소스 보기 ➔</a>
+      </div>
+    </div>
+
     <!-- Audit Footer -->
     <footer>
       🛡️ <strong>불변 감사 로그 (Immutable Audit Trail)</strong><br>
       Verified Git Commit SHA: <code>3cb70de</code> · Source: KRX 공식 종가 검산<br>
+      일별 스냅샷 SHA-256 해시 체인 · OpenTimestamps 블록체인 봉인 (<code>audit/</code>)<br>
       <a href="https://github.com/hoon4056/equity-research-portfolio" target="_blank">hoon4056/equity-research-portfolio</a>
     </footer>
   </div>

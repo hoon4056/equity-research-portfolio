@@ -4,6 +4,8 @@
 [![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-00E599?style=for-the-badge&logo=github)](https://hoon4056.github.io/equity-research-portfolio/)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit)](https://hoon4056-equity-research-portfolio.streamlit.app/)
 [![Audit Status](https://img.shields.io/badge/Audit%20Status-Verified%203cb70de-2E82FF?style=for-the-badge)](data/trade_log.csv)
+[![Verify](https://img.shields.io/badge/Verify-python3%20verify.py-2E82FF?style=for-the-badge&logo=python)](verify.py)
+[![OpenTimestamps](https://img.shields.io/badge/OpenTimestamps-sealed-00E599?style=for-the-badge&logo=bitcoin)](audit/ots)
 
 ---
 
@@ -27,6 +29,21 @@
 
 ---
 
+## 🕒 신뢰 구간 (Trust Phases) — 기록이 만들어진 방식
+
+| 구간 | 기간 | 기록 방식 | 암호학적 봉인 |
+| :--- | :--- | :--- | :--- |
+| **Phase 1** | 2026-08-31 ~ 2026-11-11 | 초기 기록 이관 — 외부 대화록의 트랙 레코드를 옮겨 적은 뒤, 2026-11-21에 전 구간(56거래일)을 KRX 정규장 확정 종가로 통일 | 2026-11-26 소급 봉인 |
+| **Phase 2** | 2026-11-11 ~ 2026-11-25 | 매일 23:00 KST 자동 정산 + 3중 시세 교차검증(다음금융 · Yahoo Finance · 네이버) | 2026-11-26 소급 봉인 |
+| **Phase 3** | 2026-11-26 ~ | 정산 당일 23:00 KST에 스냅샷 SHA-256 · 해시 체인 · OpenTimestamps 블록체인 타임스탬프 봉인, GitHub Actions CI가 push·매일 재현 검증 | 당일 봉인(일별) |
+
+**정직하게 밝히는 한계**
+- Phase 1·2 구간은 Phase 3 개시일(2026-11-26)에 **소급 봉인**했습니다. 이 구간의 증명은 "2026-11-26 이후 이 기록이 한 바이트도 바뀌지 않았다"는 뜻이며, 각 수치가 원래 그 날짜에 존재했다는 시점 증명은 아닙니다. Phase 3 거래일부터는 정산 당일 봉인되므로 "그 날 이 값이 이미 존재했다"는 시점 증명까지 확보됩니다.
+- OpenTimestamps 증명은 제출 직후 **캘린더 접수(pending)** 상태입니다. 캘린더가 해당 커밋을 비트코인 블록에 넣으면 `python3 tools/timestamp.py upgrade audit/ots/*.ots`로 **블록 높이 어테스테이션**으로 승격되며, 정산 파이프라인이 매일 자동으로 승격을 시도합니다.
+- 이 트랙 레코드는 **가상 포지션(모의 운용)**입니다. 실제 주문·체결·현금 흐름이 없으므로, 검증되는 것은 "공개 시세 기준 수치의 재현성과 무변조"이며 "실현 수익"이 아닙니다.
+
+---
+
 ## 📌 보유 종목 현황 (Holdings Detail)
 
 ### [1호] 현대글로비스 (086280.KS)
@@ -45,6 +62,7 @@
 ---
 
 ## 🛡️ 사후 조작 불가능한 불변 감사 체계 (Audit Trail)
+- **Phase 3 암호학적 봉인 (2026-11-26 개시)**: 매 거래일 23:00 KST 정산 직후 `audit/snapshots/YYYY-MM-DD.json`(원값 + 재계산 지표)을 생성해 SHA-256을 `audit/hash_chain.jsonl`에 직전 해시와 연결해 기록하고, 그 파일을 OpenTimestamps 공개 캘린더 3곳에 제출해 `audit/ots/YYYY-MM-DD.ots` 바이너리 증명으로 박제합니다. 2026-11-26에 Phase 1~2 전 구간(59거래일)을 소급 봉인했으며(`audit/genesis-2026-11-26.json` + `.ots`), 이후 검증은 `python3 verify.py` 한 번으로 끝납니다.
 - 본 포트폴리오는 사후적인 끼워맞추기식 기록을 원천 배제하기 위해, 편입 시점의 타임스탬프와 Git Commit Hash, 그리고 종가를 3개 독립 소스(다음금융·Yahoo Finance·네이버 금융)로 교차 검증합니다. 검증 코드는 `tools/price_sources.py`에 공개되어 있습니다.
 - **가격 소스 정책 (2026-11-21 전환)**: KRX 정규장 공표 종가 계열(다음금융·Yahoo)이 일치하면 그 값을 확정치로 채택합니다. 네이버 일별시세는 대체거래소(NXT) 시간외 마지막 체결가를 포함해 거래소 공표 종가와 갈릴 수 있습니다(11-20: 네이버 202,500원 -0.49% vs KRX 204,500원 +0.49%). 11-20 정산은 KRX 확정치로 정정했고, 괴리는 `portfolio/price_crosscheck.jsonl` 감사로그에 원값 그대로 남깁니다. 정규장 계열이 어긋나거나 소스 간 괴리가 3%를 넘으면 정산이 차단됩니다.
 - **괴리 3% 초과 시 확인 확정 (2026-11-24 신규)**: 11-24 네이버 값(200,000원)이 KRX 정규장 종가(206,500원) 대비 **-3.25%** 벌어져 자동 차단됐고, 정규장 계열(다음금융·Yahoo) 만장일치 + Google Finance 정규장 종가 대조로 KRX 확정치를 채택했습니다. 차단 기본값은 그대로 두고, 정규장 계열이 만장일치일 때만 사람이 근거를 남겨 확정하는 `settle --confirm-close` 경로를 추가했습니다(감사로그에 사유 원문 기록, 단위테스트 12건).
@@ -53,6 +71,66 @@
 - **소급 정정 (2026-11-21, 위 전 구간 정정에 포함)**: 같은 NXT 혼입으로 네이버 값이 들어가 있던 **11-16 205,000→207,000원 · 11-17 199,800→201,000원 · 11-18 202,000→204,000원**을 KRX 확정치로 교정했습니다. 11-20 기준 누적 수익률·Alpha는 불변이고 일간 수익률·Beta·IR·Sharpe·TE만 갱신됐습니다(11-19 일간 +0.74% → -0.25%).
 - 정산은 `python3 portfolio/tracker.py settle --date YYYY-MM-DD`로만 수행하며(거래일당 1건, 멱등), `python3 portfolio/tracker.py audit`이 시계열·정산로그·포트폴리오 JSON·거래로그·팩트시트의 모든 수치를 0.01 허용오차로 재검산합니다.
 - 모든 일별 주가와 알파 계산 로그는 `data/trade_log.csv` 및 `data/performance_series.json`에 영구 기록됩니다.
+
+---
+
+## 🔍 How to Verify — 제3자 검증 방법
+
+계산 엔진·시계열·봉인 기록이 모두 이 저장소에 공개돼 있습니다. 저장소를 clone해 스크립트 한 번만 돌리면 아래 항목을 직접 재현·검증할 수 있습니다(외부 패키지 설치 불필요, Python 3.10+).
+
+```bash
+git clone https://github.com/hoon4056/equity-research-portfolio.git
+cd equity-research-portfolio
+python3 verify.py                 # 계산 재현 · 표기 일치 · 해시 체인 · OTS 증명 검증
+python3 verify.py --live-prices   # 최근 종가를 다음금융 · Yahoo · 네이버와 대조 (네트워크 필요)
+python3 verify.py --json          # CI 로그용 JSON 출력
+```
+
+통과 시 마지막 줄에 `== PASS — 전 항목 일치 ==` 가 찍히고, 불일치가 있으면 항목별로 `✗`와 함께 저장값 vs 재계산 값을 보여줍니다(종료코드 1).
+
+| 검증 항목 | 무엇을 확인하나 |
+| :--- | :--- |
+| **1. 계산 재현** | `data/performance_series.json`의 일별 종가·KOSPI 원값만으로 일별·누적 수익률, 벤치마크, 일일·누적 Alpha, MDD, Beta, Sharpe, Information Ratio, 추적오차를 처음부터 다시 계산해 저장값과 0.01%p 이내 비교 |
+| **2. 표기 일치** | 재계산 값이 `data/portfolio.json`, `data/trade_log.csv`, `index.html`(대시보드), `README.md`(이 문서)의 표기와 2자리까지 일치하는지 |
+| **3. 스냅샷 해시 체인** | `audit/snapshots/*.json` 각각의 SHA-256이 `audit/hash_chain.jsonl`에 기록된 값과 같은지, 체인이 직전 해시로 끊김 없이 이어지는지 |
+| **4. OpenTimestamps** | `audit/ots/*.ots`의 매직·버전·해시 알고리즘·다이제스트가 대상 파일과 일치하는지, 어테스테이션(캘린더 접수 / 비트코인 블록)이 무엇인지 |
+| **5. 시세 대조** (`--live-prices`) | 마지막 거래일 종가가 공개 시세 3개 소스와 일치하는지(3% 초과 시 실패) |
+
+### 손으로 직접 확인하기
+
+```bash
+sha256sum audit/snapshots/2026-11-25.json          # 스냅샷 해시 (hash_chain.jsonl 마지막 항목과 비교)
+python3 tools/timestamp.py show audit/ots/2026-11-25.ots       # 증명 내용(다이제스트·어테스테이션)
+python3 tools/timestamp.py verify audit/snapshots/2026-11-25.json   # 파일 ↔ 증명 대조
+python3 tools/timestamp.py upgrade audit/ots/*.ots            # 블록 확정으로 승격 시도
+```
+
+### 감사 디렉터리 구조
+
+```
+audit/
+  snapshots/YYYY-MM-DD.json   거래일별 스냅샷(원값 + 재계산 지표 + 표기값) — 해시 대상
+  hash_chain.jsonl            스냅샷 해시 체인. chain_sha256 = sha256(prev + seq + date + kind + snapshot_sha256)
+  seals.jsonl                 봉인 기록(파일·OTS 경로·캘린더 응답)
+  ots/*.ots                   OpenTimestamps 증명(일별 스냅샷 · 창세 봉인)
+  genesis-YYYY-MM-DD.json     Phase 1~2 전 구간을 한 번에 묶은 창세 봉인
+  manifest.json               체인 헤드·규칙 요약
+```
+
+과거를 고쳐 쓰지 않는 규칙: 이미 봉인된 날짜의 스냅샷이 (소급 정정 등으로) 바뀌면 기존 항목을 수정하지 않고 **개정(revision) 항목을 새로 덧붙입니다**. 정정 사실과 이전 해시가 그래서 체인에 그대로 남습니다.
+
+---
+
+## 📜 Pre-registration Policy — 사전 선언 규칙
+
+사후에 끼워맞춘 기록처럼 보이지 않게 하기 위해, 이 펀드는 **매매·목표가·손절선 변경을 장 시작 전에 공개 선언**합니다. 선언은 코드가 아니라 GitHub Issue로 남기므로 시각과 원문이 그대로 보존됩니다.
+
+1. **신규 편입·청산·비중 변경**은 해당 거래일 **09:00 KST 장 시작 전**에 Issue로 선언합니다. 제목: `[TRADE] 2026-11-27 086280 매수`
+2. Issue 본문 필수 항목: 종목코드·종목명 / 방향(매수·매도) / 기준가(전일 KRX 확정 종가) / 목표가 / 손절선(Thesis Breaker) / 편입 근거 3줄 / **무효화 조건(What would prove me wrong)**
+3. **사전 선언이 없는 매매는 신규 편입으로 트랙 레코드에 반영하지 않습니다.** 기록에 없는 수익은 성과로 세지 않습니다.
+4. **사후 수정 금지.** 정정이 필요하면 `[CORRECTION]` Issue를 새로 열고 원 Issue를 링크합니다. 시계열·스냅샷 정정은 해시 체인에 `revision` 항목으로만 남으며, 과거 봉인 기록은 지워지지 않습니다.
+5. 목표가·손절선·Thesis 변경도 `[THESIS]` Issue로 사전(또는 최소한 당일 장 마감 전) 선언하고, 사유와 함께 `portfolio/factsheet.md` 이력에 남깁니다.
+6. 선언과 실제 정산 값이 다르면 그 차이는 `audit/hash_chain.jsonl`과 커밋 이력에 그대로 드러납니다. 감추지 않는 것이 이 체계의 목적입니다.
 
 ---
 
