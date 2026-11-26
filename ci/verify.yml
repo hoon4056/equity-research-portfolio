@@ -1,3 +1,16 @@
+# GitHub Actions 검증 워크플로 — 설치 위치: .github/workflows/verify.yml
+#
+# 왜 여기 있나: 이 저장소에 쓰기 권한을 가진 GitHub App 토큰에 `workflows` 권한이 없어
+# `.github/workflows/` 경로로는 push도 REST API 쓰기도 거부된다(remote rejected / 403
+# "Resource not accessible by integration"). 그래서 워크플로 정의는 이 경로에 두고,
+# 저장소 소유자가 아래 한 번만 실행하면 자동 검증이 켜진다.
+#
+#   git mv ci/verify.yml .github/workflows/verify.yml && git commit -m "ci: verify 워크플로 활성화" && git push
+#
+# (또는 GitHub 웹에서 .github/workflows/verify.yml 파일을 만들어 이 내용을 붙여넣고 커밋)
+# 활성화 전에도 검증은 언제든 로컬에서 `python3 verify.py`로, 매일 23:00 KST 정산 파이프라인에서
+# `tracker.py`가 자동으로 수행한다.
+#
 name: verify
 
 # 재현 가능 검증 CI — 제3자가 로컬에서 돌리는 것과 같은 명령(`python3 verify.py`)을 실행한다.

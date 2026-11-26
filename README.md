@@ -96,6 +96,17 @@ python3 verify.py --json          # CI 로그용 JSON 출력
 | **4. OpenTimestamps** | `audit/ots/*.ots`의 매직·버전·해시 알고리즘·다이제스트가 대상 파일과 일치하는지, 어테스테이션(캘린더 접수 / 비트코인 블록)이 무엇인지 |
 | **5. 시세 대조** (`--live-prices`) | 마지막 거래일 종가가 공개 시세 3개 소스와 일치하는지(3% 초과 시 실패) |
 
+### 자동 검증 (CI)
+
+`ci/verify.yml` 에 GitHub Actions 워크플로가 들어 있습니다(push·PR·매일 18:00 KST 실행). 현재 저장소에 쓰기 권한을 가진 GitHub App 토큰에 `workflows` 권한이 없어 `.github/workflows/` 로는 push가 거부되기 때문에, 저장소 소유자가 아래 한 번만 실행하면 자동 검증이 켜집니다.
+
+```bash
+git mv ci/verify.yml .github/workflows/verify.yml
+git commit -m "ci: verify 워크플로 활성화" && git push
+```
+
+활성화 전에도 검증은 동일하게 동작합니다 — 로컬에서는 `python3 verify.py`, 매일 23:00 KST 정산 파이프라인에서는 정산 직후 자동 실행됩니다(실패 시 로그에 FAIL로 남고 경고와 재시도 명령이 출력).
+
 ### 손으로 직접 확인하기
 
 ```bash
